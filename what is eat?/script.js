@@ -119,6 +119,7 @@ function applyTheme(theme) {
   themeToggle.querySelector(".theme-toggle__label").textContent = isLight
     ? "Dark mode"
     : "Light mode";
+  document.documentElement.style.colorScheme = isLight ? "light" : "dark";
 }
 
 function saveTheme(theme) {

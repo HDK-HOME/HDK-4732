@@ -107,8 +107,50 @@
         </div>
         <div id="quick-picks" class="quick-picks"></div>
       </section>
+
+      <section class="discussion-panel">
+        <div class="discussion-header">
+          <div class="section-heading">
+            <p class="eyebrow">TABLE TALK</p>
+            <h3>댓글로 오늘의 저녁 판정 남기기</h3>
+            <p class="discussion-copy">
+              추천 결과가 괜찮았는지, 더 좋은 메뉴가 있었는지 남겨보세요.
+              의외로 이런 페이지는 댓글에서 더 재밌어집니다.
+            </p>
+          </div>
+          <aside class="comment-note">
+            <strong>오늘의 한마디</strong>
+            <p>
+              "이건 인정"부터 "차라리 이거 먹어라"까지, 메뉴 감상평을 가볍게
+              던질 수 있는 공간입니다.
+            </p>
+          </aside>
+        </div>
+
+        <div class="comment-shell">
+          <div id="disqus_thread"></div>
+          <noscript>
+            Please enable JavaScript to view the comments powered by
+            <a href="https://disqus.com/?ref_noscript">Disqus.</a>
+          </noscript>
+        </div>
+      </section>
     </main>
 
     <script src="script.js"></script>
+    <script>
+      var disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = window.location.pathname || "what-is-eat";
+      };
+
+      (function () {
+        var d = document;
+        var s = d.createElement("script");
+        s.src = "https://dkhong.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", String(+new Date()));
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
   </body>
 </html>
