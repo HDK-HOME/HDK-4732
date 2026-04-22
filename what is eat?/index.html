@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘 저녁 뭐먹지?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=SUIT:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">DINNER PICKER</p>
+        <div class="hero-top">
+          <div>
+            <h1>오늘 저녁 뭐먹지?</h1>
+            <p class="hero-copy">
+              고민을 줄이고 바로 고를 수 있게, 지금 기분과 상황에 맞는 메뉴를
+              빠르게 추천합니다.
+            </p>
+          </div>
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="라이트 모드로 전환"
+          >
+            <span class="theme-toggle__label">Light mode</span>
+          </button>
+        </div>
+
+        <div class="control-grid">
+          <label class="control">
+            <span>오늘 기분</span>
+            <select id="mood">
+              <option value="any">아무거나</option>
+              <option value="comfort">든든한 거</option>
+              <option value="fresh">가벼운 거</option>
+              <option value="spicy">자극적인 거</option>
+              <option value="special">기분 내고 싶음</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>예산</span>
+            <select id="budget">
+              <option value="any">상관없음</option>
+              <option value="low">가볍게</option>
+              <option value="mid">적당히</option>
+              <option value="high">오늘은 투자</option>
+            </select>
+          </label>
+
+          <label class="control">
+            <span>상황</span>
+            <select id="context">
+              <option value="any">상관없음</option>
+              <option value="solo">혼밥</option>
+              <option value="group">같이 먹음</option>
+              <option value="delivery">배달/포장</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="result-panel">
+        <div class="result-copy">
+          <p class="result-kicker">오늘의 추천</p>
+          <h2 id="menu-name">매콤한 부대찌개</h2>
+          <p id="menu-description" class="result-description">
+            얼큰하게 한 끼 해결하고 싶을 때 실패 확률이 낮은 선택.
+          </p>
+        </div>
+
+        <div class="result-meta">
+          <div class="meta-card">
+            <span class="meta-label">분위기</span>
+            <strong id="menu-mood">자극적인 거</strong>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">예산대</span>
+            <strong id="menu-budget">적당히</strong>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">추천 상황</span>
+            <strong id="menu-context">배달/포장</strong>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="pick-button" class="primary-button" type="button">
+            다시 추천받기
+          </button>
+          <p id="match-count" class="match-count"></p>
+        </div>
+      </section>
+
+      <section class="quick-list">
+        <div class="section-heading">
+          <p class="eyebrow">QUICK PICKS</p>
+          <h3>지금 바로 고르기 좋은 메뉴들</h3>
+        </div>
+        <div id="quick-picks" class="quick-picks"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
