@@ -128,29 +128,73 @@
         </div>
 
         <div class="comment-shell">
-          <div id="disqus_thread"></div>
-          <noscript>
-            Please enable JavaScript to view the comments powered by
-            <a href="https://disqus.com/?ref_noscript">Disqus.</a>
-          </noscript>
+          <div class="comment-toolbar">
+            <div class="comment-stat">
+              <span class="comment-stat__label">남겨진 의견</span>
+              <strong id="comment-count">0개</strong>
+            </div>
+            <label class="sort-control">
+              <span>정렬</span>
+              <select id="comment-sort">
+                <option value="latest">최신순</option>
+                <option value="popular">공감순</option>
+              </select>
+            </label>
+          </div>
+
+          <form id="comment-form" class="comment-form">
+            <div class="comment-form__row">
+              <label class="control">
+                <span>닉네임</span>
+                <input
+                  id="comment-author"
+                  name="author"
+                  type="text"
+                  maxlength="18"
+                  placeholder="예: 오늘은치킨파"
+                  required
+                />
+              </label>
+              <label class="control">
+                <span>추천 메뉴 태그</span>
+                <input
+                  id="comment-menu"
+                  name="menu"
+                  type="text"
+                  maxlength="24"
+                  placeholder="예: 마라탕"
+                />
+              </label>
+            </div>
+
+            <label class="control">
+              <span>한 줄 평</span>
+              <textarea
+                id="comment-body"
+                name="body"
+                rows="4"
+                maxlength="220"
+                placeholder="추천 결과가 어땠는지, 오늘 먹고 싶은 메뉴를 남겨보세요."
+                required
+              ></textarea>
+            </label>
+
+            <div class="comment-form__actions">
+              <button id="use-current-menu" class="secondary-button" type="button">
+                지금 추천 메뉴 가져오기
+              </button>
+              <button class="primary-button" type="submit">의견 남기기</button>
+            </div>
+          </form>
+
+          <div id="comment-empty" class="comment-empty">
+            첫 댓글을 남겨서 오늘 저녁 토론을 시작해보세요.
+          </div>
+          <div id="comment-list" class="comment-list"></div>
         </div>
       </section>
     </main>
 
     <script src="script.js"></script>
-    <script>
-      var disqus_config = function () {
-        this.page.url = window.location.href;
-        this.page.identifier = window.location.pathname || "what-is-eat";
-      };
-
-      (function () {
-        var d = document;
-        var s = d.createElement("script");
-        s.src = "https://dkhong.disqus.com/embed.js";
-        s.setAttribute("data-timestamp", String(+new Date()));
-        (d.head || d.body).appendChild(s);
-      })();
-    </script>
   </body>
 </html>

@@ -98,12 +98,25 @@ const budgetSelect = document.querySelector("#budget");
 const contextSelect = document.querySelector("#context");
 const quickPicks = document.querySelector("#quick-picks");
 const matchCount = document.querySelector("#match-count");
+const commentForm = document.querySelector("#comment-form");
+const commentAuthor = document.querySelector("#comment-author");
+const commentMenu = document.querySelector("#comment-menu");
+const commentBody = document.querySelector("#comment-body");
+const commentList = document.querySelector("#comment-list");
+const commentEmpty = document.querySelector("#comment-empty");
+const commentCount = document.querySelector("#comment-count");
+const commentSort = document.querySelector("#comment-sort");
+const useCurrentMenuButton = document.querySelector("#use-current-menu");
 
 const menuName = document.querySelector("#menu-name");
 const menuDescription = document.querySelector("#menu-description");
 const menuMood = document.querySelector("#menu-mood");
 const menuBudget = document.querySelector("#menu-budget");
 const menuContext = document.querySelector("#menu-context");
+
+const COMMENT_STORAGE_KEY = "dinner-comments";
+const COMMENT_AUTHOR_KEY = "dinner-comment-author";
+let currentMenu = dinners[0];
 
 function getStoredTheme() {
   return localStorage.getItem("dinner-theme") || "dark";
@@ -142,6 +155,7 @@ function getCandidates() {
 }
 
 function renderMenu(menu, candidateCount) {
+  currentMenu = menu;
   menuName.textContent = menu.name;
   menuDescription.textContent = menu.description;
   menuMood.textContent = menu.moodLabel;
@@ -174,6 +188,115 @@ function renderQuickPicks() {
     .join("");
 }
 
+function getStoredComments() {
+  try {
+    return JSON.parse(localStorage.getItem(COMMENT_STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveComments(comments) {
+  localStorage.setItem(COMMENT_STORAGE_KEY, JSON.stringify(comments));
+}
+
+function storeAuthor(name) {
+  localStorage.setItem(COMMENT_AUTHOR_KEY, name);
+}
+
+function getStoredAuthor() {
+  return localStorage.getItem(COMMENT_AUTHOR_KEY) || "";
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function formatRelativeTime(timestamp) {
+  const diffMinutes = Math.max(1, Math.floor((Date.now() - timestamp) / 60000));
+  if (diffMinutes < 60) {
+    return `${diffMinutes}분 전`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) {
+    return `${diffHours}시간 전`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}일 전`;
+}
+
+function sortComments(comments) {
+  const copy = [...comments];
+  if (commentSort.value === "popular") {
+    copy.sort((a, b) => b.likes - a.likes || b.createdAt - a.createdAt);
+    return copy;
+  }
+
+  copy.sort((a, b) => b.createdAt - a.createdAt);
+  return copy;
+}
+
+function renderComments() {
+  const comments = sortComments(getStoredComments());
+  commentCount.textContent = `${comments.length}개`;
+  commentEmpty.hidden = comments.length > 0;
+
+  commentList.innerHTML = comments
+    .map((comment) => {
+      const avatar = escapeHtml(comment.author.slice(0, 1).toUpperCase());
+      const likedClass = comment.liked ? " is-active" : "";
+      const menuTag = comment.menu
+        ? `<span class="comment-menu-tag">${escapeHtml(comment.menu)}</span>`
+        : "";
+
+      return `
+        <article class="comment-card" data-comment-id="${comment.id}">
+          <div class="comment-card__top">
+            <div class="comment-card__author">
+              <div class="comment-avatar">${avatar}</div>
+              <div>
+                <div class="comment-name">${escapeHtml(comment.author)}</div>
+                <div class="comment-time">${formatRelativeTime(comment.createdAt)}</div>
+              </div>
+            </div>
+            ${menuTag}
+          </div>
+          <p class="comment-body">${escapeHtml(comment.body)}</p>
+          <div class="comment-actions">
+            <button class="comment-chip${likedClass}" type="button" data-action="like">
+              공감 ${comment.likes}
+            </button>
+            <button class="comment-chip" type="button" data-action="delete">
+              삭제
+            </button>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function updateComment(commentId, updater) {
+  const nextComments = getStoredComments().map((comment) =>
+    comment.id === commentId ? updater(comment) : comment
+  );
+  saveComments(nextComments);
+  renderComments();
+}
+
+function deleteComment(commentId) {
+  const nextComments = getStoredComments().filter((comment) => comment.id !== commentId);
+  saveComments(nextComments);
+  renderComments();
+}
+
 themeToggle.addEventListener("click", () => {
   const nextTheme = document.body.dataset.theme === "light" ? "dark" : "light";
   applyTheme(nextTheme);
@@ -185,6 +308,72 @@ pickButton.addEventListener("click", pickDinner);
   select.addEventListener("change", pickDinner);
 });
 
+commentSort.addEventListener("change", renderComments);
+
+useCurrentMenuButton.addEventListener("click", () => {
+  commentMenu.value = currentMenu.name;
+  commentBody.focus();
+});
+
+commentForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const author = commentAuthor.value.trim();
+  const menu = commentMenu.value.trim();
+  const body = commentBody.value.trim();
+
+  if (!author || !body) {
+    return;
+  }
+
+  const nextComment = {
+    id: crypto.randomUUID(),
+    author,
+    menu,
+    body,
+    likes: 0,
+    liked: false,
+    createdAt: Date.now(),
+  };
+
+  const comments = getStoredComments();
+  comments.push(nextComment);
+  saveComments(comments);
+  storeAuthor(author);
+  commentForm.reset();
+  commentAuthor.value = author;
+  renderComments();
+});
+
+commentList.addEventListener("click", (event) => {
+  const actionButton = event.target.closest("[data-action]");
+  if (!actionButton) {
+    return;
+  }
+
+  const commentCard = actionButton.closest("[data-comment-id]");
+  if (!commentCard) {
+    return;
+  }
+
+  const commentId = commentCard.dataset.commentId;
+  const action = actionButton.dataset.action;
+
+  if (action === "like") {
+    updateComment(commentId, (comment) => ({
+      ...comment,
+      liked: !comment.liked,
+      likes: comment.liked ? Math.max(0, comment.likes - 1) : comment.likes + 1,
+    }));
+  }
+
+  if (action === "delete") {
+    deleteComment(commentId);
+  }
+});
+
 applyTheme(getStoredTheme());
+commentAuthor.value = getStoredAuthor();
 renderQuickPicks();
 pickDinner();
+renderComments();
