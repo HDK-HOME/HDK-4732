@@ -346,6 +346,13 @@ h3 {
   font-size: 1.1rem;
 }
 
+.update-stamp {
+  max-width: 70ch;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .menu-name {
   margin: 0;
   font-size: clamp(2.1rem, 5vw, 4rem);
@@ -508,7 +515,9 @@ h3 {
 }
 
 .topic-grid,
-.faq-list {
+.faq-list,
+.answer-grid,
+.trust-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
@@ -516,7 +525,9 @@ h3 {
 }
 
 .topic-grid article,
-.faq-list article {
+.faq-list article,
+.answer-grid article,
+.trust-grid article {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--surface-strong);
@@ -524,15 +535,80 @@ h3 {
 }
 
 .topic-grid h3,
-.faq-list h3 {
+.faq-list h3,
+.answer-grid h3,
+.trust-grid h3 {
   margin-bottom: 10px;
 }
 
 .topic-grid p,
-.faq-list p {
+.faq-list p,
+.answer-grid p,
+.trust-grid p {
   margin: 0;
   color: var(--muted);
   line-height: 1.74;
+}
+
+.answer-grid article {
+  background:
+    linear-gradient(180deg, rgba(41, 151, 255, 0.12), transparent),
+    var(--surface-strong);
+}
+
+.trust-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.source-note,
+.comparison-table-wrap {
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  padding: 22px;
+}
+
+.source-note strong {
+  display: block;
+  font-size: 1.02rem;
+}
+
+.source-note p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.source-note a {
+  color: var(--accent-strong);
+}
+
+.comparison-table-wrap {
+  overflow-x: auto;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.comparison-table thead th {
+  color: var(--accent-strong);
+  font-size: 0.92rem;
+}
+
+.comparison-table tbody th {
+  width: 140px;
 }
 
 .control-grid {
@@ -1135,6 +1211,8 @@ textarea {
   .insight-strip,
   .topic-grid,
   .faq-list,
+  .answer-grid,
+  .trust-grid,
   .quick-picks,
   .guide-grid,
   .policy-grid,
