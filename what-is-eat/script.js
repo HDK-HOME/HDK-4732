@@ -299,6 +299,13 @@ const THEME_STORAGE_KEY = "dinner-theme";
 let currentMenu = dinners[0];
 let lastMenuName = "";
 
+const contextLabels = {
+  solo: "혼밥",
+  date: "둘이 먹기",
+  group: "여럿이",
+  delivery: "배달/포장",
+};
+
 function getStoredTheme() {
   return localStorage.getItem(THEME_STORAGE_KEY) || "dark";
 }
@@ -428,13 +435,17 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function getContextLabel(context) {
+  return contextLabels[context] || "상황 추천";
+}
+
 function renderQuickPicks() {
   quickPicks.innerHTML = dinners
     .map(
       (menu) => `
         <article class="quick-card">
           <div>
-            <span class="quick-tag">${escapeHtml(menu.context)}</span>
+            <span class="quick-tag">${escapeHtml(getContextLabel(menu.context))}</span>
             <h3>${escapeHtml(menu.name)}</h3>
           </div>
           <p>${escapeHtml(menu.description)}</p>

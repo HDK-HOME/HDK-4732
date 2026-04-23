@@ -210,6 +210,7 @@ body[data-theme="light"] .site-header {
 }
 
 .hero,
+.content-panel,
 .picker-panel,
 .result-panel,
 .library-panel,
@@ -222,6 +223,16 @@ body[data-theme="light"] .site-header {
   background: var(--surface);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+}
+
+.noscript-banner {
+  margin: 12px auto 0;
+  width: min(1180px, calc(100% - 36px));
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  border-radius: var(--radius-md);
+  background: rgba(250, 204, 21, 0.12);
+  padding: 14px 16px;
+  font-weight: 700;
 }
 
 .hero {
@@ -244,6 +255,24 @@ body[data-theme="light"] .site-header {
   min-height: 100%;
   flex-direction: column;
   justify-content: center;
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 18px;
+}
+
+.hero-links a {
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.hero-links a:hover {
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .eyebrow,
@@ -447,12 +476,50 @@ h3 {
   padding: clamp(24px, 4vw, 38px);
 }
 
+.content-panel {
+  margin-top: 24px;
+  border-radius: var(--radius-xl);
+  padding: clamp(24px, 4vw, 38px);
+}
+
 .section-heading {
   max-width: 760px;
 }
 
 .section-heading p {
   margin: 14px 0 0;
+}
+
+.keyword-lead {
+  max-width: 70ch;
+}
+
+.topic-grid,
+.faq-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.topic-grid article,
+.faq-list article {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  padding: 22px;
+}
+
+.topic-grid h3,
+.faq-list h3 {
+  margin-bottom: 10px;
+}
+
+.topic-grid p,
+.faq-list p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.74;
 }
 
 .control-grid {
@@ -737,6 +804,18 @@ textarea {
   margin: 4px 0 0;
 }
 
+.menu-summary-list {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding-left: 20px;
+}
+
+.menu-summary-list li {
+  color: var(--text);
+  line-height: 1.72;
+}
+
 .quick-tag,
 .comment-menu-tag,
 .saved-card span {
@@ -954,8 +1033,22 @@ textarea {
   font-size: 0.95rem;
 }
 
+.site-footer a {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+
+.site-footer a + a {
+  margin-left: 10px;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .hero,
+  .content-panel,
   .picker-panel,
   .result-panel,
   .insight-strip article,
@@ -1027,6 +1120,8 @@ textarea {
   .health-grid,
   .detail-grid,
   .insight-strip,
+  .topic-grid,
+  .faq-list,
   .quick-picks,
   .guide-grid,
   .policy-grid,
@@ -1055,6 +1150,7 @@ textarea {
   }
 
   .hero,
+  .content-panel,
   .picker-panel,
   .result-panel,
   .library-panel,
