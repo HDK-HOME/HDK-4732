@@ -3,14 +3,14 @@
   "short_name": "오늘뭐먹지",
   "description": "오늘 뭐먹지 고민을 줄여주는 저녁 메뉴 추천 사이트",
   "lang": "ko-KR",
-  "start_url": "/what-is-eat/",
-  "scope": "/what-is-eat/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#03050a",
   "theme_color": "#03050a",
   "icons": [
     {
-      "src": "/what-is-eat/favicon.png",
+      "src": "/favicon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
