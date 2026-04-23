@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="기분, 예산, 함께 먹는 사람, 조리 여유를 바탕으로 오늘 저녁 메뉴와 먹는 방법을 추천하는 한국어 저녁 큐레이션 서비스입니다."
+      content="오늘 저녁 뭐 먹을지 바로 고르는 메뉴 추천 서비스. 랜덤박스와 조건 추천으로 저녁 후보를 빠르게 골라줘."
     />
     <meta
       name="keywords"
       content="오늘 뭐먹지, 저녁 메뉴 추천, 혼밥 추천, 배달 메뉴 추천, 집밥 메뉴, 외식 메뉴"
     />
-    <meta name="theme-color" content="#24160f" />
+    <meta name="theme-color" content="#03050a" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="오늘뭐먹지 - 저녁 메뉴 큐레이션" />
+    <meta property="og:title" content="오늘뭐먹지 - 저녁 후보 추천" />
     <meta
       property="og:description"
-      content="배고픔의 크기, 오늘의 기분, 예산, 조리 여유를 읽고 한 끼를 고르는 시간을 줄여줍니다."
+      content="귀찮으면 랜덤박스, 고민되면 조건 추천. 오늘 저녁 후보를 바로 골라줘."
     />
-    <title>오늘뭐먹지 - 저녁 메뉴 큐레이션</title>
+    <title>오늘뭐먹지 - 저녁 후보 추천</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&family=Song+Myung&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -33,7 +33,7 @@
         "name": "오늘뭐먹지",
         "applicationCategory": "LifestyleApplication",
         "operatingSystem": "All",
-        "description": "기분과 상황에 맞는 저녁 메뉴를 추천하고, 왜 그 메뉴가 어울리는지 설명하는 한국어 큐레이션 서비스입니다.",
+        "description": "랜덤박스와 조건 추천으로 오늘 저녁 후보를 빠르게 골라주는 한국어 서비스입니다.",
         "inLanguage": "ko-KR"
       }
     </script>
@@ -47,10 +47,10 @@
         <span>오늘뭐먹지</span>
       </a>
       <nav class="site-nav" aria-label="주요 메뉴">
-        <a href="#picker">추천받기</a>
-        <a href="#guide">고르는 법</a>
+        <a href="#picker">조건추천</a>
+        <a href="#guide">고르는 팁</a>
         <a href="#library">메뉴 노트</a>
-        <a href="#policy">운영 원칙</a>
+        <a href="#policy">원칙</a>
       </nav>
       <button
         id="theme-toggle"
@@ -65,35 +65,37 @@
     <main id="top" class="app-shell">
       <section class="hero">
         <div class="hero-copy-block">
-          <p class="eyebrow">DINNER CURATION</p>
-          <h1>오늘의 허기를 읽고, 저녁을 한 번에 정합니다.</h1>
+          <p class="eyebrow">WHAT SHOULD I EAT?</p>
+          <h1>저녁 후보 딱 골라줄게</h1>
           <p class="hero-copy">
-            메뉴 추천은 단순한 랜덤 뽑기가 아니라 몸 상태, 기분, 시간, 예산의
-            합의입니다. 오늘뭐먹지는 선택 피로를 줄이고, 먹는 순간까지 상상되는
-            구체적인 이유를 함께 제안합니다.
+            귀찮으면 랜덤박스 돌리고, 좀 따지고 싶으면 조건만 골라.
+            메뉴랑 같이 먹을 것, 피하면 좋은 포인트까지 짧게 정리해줄게.
           </p>
           <div class="hero-actions">
-            <a class="primary-link" href="#picker">지금 메뉴 고르기</a>
-            <a class="text-link" href="#guide">선택 기준 보기</a>
+            <a class="primary-link" href="#picker">조건으로 고르기</a>
+            <button id="hero-random-button" class="text-link" type="button">랜덤박스 돌리기</button>
           </div>
         </div>
-        <aside class="hero-card" aria-label="오늘의 저녁 질문">
-          <span class="card-label">오늘의 질문</span>
-          <strong id="daily-question">밥을 먹고 싶은 건가요, 기분을 바꾸고 싶은 건가요?</strong>
-          <p>
-            배가 고픈 이유를 한 문장으로 잡으면 메뉴 결정이 빨라집니다. 든든함,
-            산뜻함, 자극, 보상감 중 오늘의 핵심을 먼저 고르세요.
-          </p>
+        <aside class="hero-card random-box" aria-label="랜덤박스">
+          <span class="card-label">RANDOM BOX</span>
+          <strong>아무 생각 없으면 이거 눌러</strong>
+          <button id="random-box-button" class="random-box__button" type="button">
+            오늘 메뉴 뽑기
+          </button>
+          <div id="random-box-result" class="random-box__result">
+            <span>대기중</span>
+            <b>버튼 누르면 바로 뽑아줄게</b>
+          </div>
         </aside>
       </section>
 
       <section id="picker" class="picker-panel" aria-labelledby="picker-title">
         <div class="section-heading">
           <p class="eyebrow">PICKER</p>
-          <h2 id="picker-title">오늘 저녁 추천실</h2>
+          <h2 id="picker-title">조건으로 골라봐</h2>
           <p>
-            조건을 바꾸면 추천도 즉시 바뀝니다. 조건이 너무 좁아도 전체 메뉴에서
-            가장 가까운 후보를 찾아 안내합니다.
+            기분, 배고픔, 예산만 대충 골라도 돼. 조건이 안 맞아도 가장 가까운
+            메뉴로 바로 추천해줄게.
           </p>
         </div>
 
@@ -101,11 +103,11 @@
           <label class="control">
             <span>오늘 기분</span>
             <select id="mood">
-              <option value="any">아무거나 괜찮음</option>
-              <option value="comfort">위로가 필요함</option>
-              <option value="fresh">가볍고 산뜻하게</option>
-              <option value="spicy">강한 자극 원함</option>
-              <option value="special">하루를 보상하고 싶음</option>
+              <option value="any">아무거나</option>
+              <option value="comfort">위로 필요해</option>
+              <option value="fresh">가볍게 갈래</option>
+              <option value="spicy">자극 땡겨</option>
+              <option value="special">오늘은 보상</option>
             </select>
           </label>
 
@@ -115,7 +117,7 @@
               <option value="any">상관없음</option>
               <option value="light">가볍게</option>
               <option value="steady">적당히 든든하게</option>
-              <option value="heavy">확실히 배부르게</option>
+              <option value="heavy">제대로 배부르게</option>
             </select>
           </label>
 
@@ -124,7 +126,7 @@
             <select id="budget">
               <option value="any">상관없음</option>
               <option value="low">만원 안팎</option>
-              <option value="mid">무난한 한 끼</option>
+              <option value="mid">무난하게</option>
               <option value="high">오늘은 투자</option>
             </select>
           </label>
@@ -134,8 +136,8 @@
             <select id="context">
               <option value="any">상관없음</option>
               <option value="solo">혼밥</option>
-              <option value="date">둘이 천천히</option>
-              <option value="group">여럿이 나눠먹기</option>
+              <option value="date">둘이 먹어</option>
+              <option value="group">여럿이 먹어</option>
               <option value="delivery">배달/포장</option>
             </select>
           </label>
@@ -145,8 +147,8 @@
             <select id="effort">
               <option value="any">상관없음</option>
               <option value="quick">20분 안에</option>
-              <option value="normal">조금 기다려도 됨</option>
-              <option value="slow">천천히 즐김</option>
+              <option value="normal">조금 기다려도 돼</option>
+              <option value="slow">천천히 먹을래</option>
             </select>
           </label>
 
@@ -157,7 +159,7 @@
               <option value="rice">밥 중심</option>
               <option value="noodle">면/국물</option>
               <option value="protein">고기/단백질</option>
-              <option value="vegetable">채소/가벼움</option>
+              <option value="vegetable">채소/가벼운 거</option>
             </select>
           </label>
         </div>
@@ -166,15 +168,15 @@
       <section class="result-panel" aria-live="polite">
         <div class="result-layout">
           <div class="result-copy">
-            <p class="result-kicker">오늘의 추천</p>
+            <p class="result-kicker">오늘 후보</p>
             <h2 id="menu-name">김치나베 돈카츠</h2>
             <p id="menu-description" class="result-description">
-              바삭함과 국물의 위로가 함께 필요할 때 좋은 선택입니다.
+              바삭함이랑 뜨거운 국물이 같이 필요할 때 좋아.
             </p>
           </div>
 
           <div class="score-card">
-            <span class="score-label">조건 적합도</span>
+            <span class="score-label">잘 맞는 정도</span>
             <strong id="match-score">92%</strong>
             <p id="match-count">조건 일치 메뉴 중에서 추천 중</p>
           </div>
@@ -182,43 +184,43 @@
 
         <div class="result-meta">
           <div class="meta-card">
-            <span class="meta-label">왜 지금인가</span>
-            <strong id="menu-reason">지친 날에도 맛의 대비가 선명합니다.</strong>
+            <span class="meta-label">왜 이거냐면</span>
+            <strong id="menu-reason">지친 날에도 맛이 확실해서 좋아.</strong>
           </div>
           <div class="meta-card">
-            <span class="meta-label">같이 먹으면 좋은 것</span>
+            <span class="meta-label">같이 먹을 거</span>
             <strong id="menu-pairing">양배추 샐러드, 따뜻한 보리차</strong>
           </div>
           <div class="meta-card">
-            <span class="meta-label">주의할 점</span>
-            <strong id="menu-caution">국물이 짤 수 있어 밥 양을 조절하세요.</strong>
+            <span class="meta-label">이건 조심</span>
+            <strong id="menu-caution">국물이 짤 수 있으니까 밥 양 조절해.</strong>
           </div>
         </div>
 
         <div class="detail-grid">
           <article>
             <h3>먹는 순서</h3>
-            <p id="menu-ritual">첫 입은 소스가 덜 밴 가장 바삭한 조각부터 시작하세요.</p>
+            <p id="menu-ritual">첫 입은 제일 바삭한 조각부터 가.</p>
           </article>
           <article>
-            <h3>집에서 먹는다면</h3>
-            <p id="menu-home">냉동 돈카츠와 김치찌개 베이스만 있어도 충분히 구현됩니다.</p>
+            <h3>집에서 먹으면</h3>
+            <p id="menu-home">냉동 돈카츠랑 김치찌개 베이스만 있어도 꽤 돼.</p>
           </article>
           <article>
-            <h3>밖에서 먹는다면</h3>
-            <p id="menu-out">늦은 저녁에는 튀김 회전율이 높은 곳을 고르는 편이 좋습니다.</p>
+            <h3>밖에서 먹으면</h3>
+            <p id="menu-out">늦은 저녁엔 튀김 회전 빠른 집으로 가.</p>
           </article>
         </div>
 
         <div class="action-row">
           <button id="pick-button" class="primary-button" type="button">
-            다른 추천 보기
+            다른 거 보여줘
           </button>
           <button id="save-button" class="secondary-button" type="button">
-            오늘 후보에 저장
+            후보에 담기
           </button>
           <button id="surprise-button" class="secondary-button" type="button">
-            완전 랜덤
+            랜덤으로 가기
           </button>
         </div>
       </section>
@@ -226,26 +228,23 @@
       <section class="insight-strip" aria-label="저녁 선택 인사이트">
         <article>
           <span>01</span>
-          <h3>선택 피로 줄이기</h3>
+          <h3>고민 줄여</h3>
           <p>
-            배고플수록 사람은 익숙한 메뉴만 반복합니다. 조건을 먼저 고르면
-            익숙함과 새로움 사이의 균형을 찾기 쉽습니다.
+            배고프면 맨날 먹던 것만 떠올라. 조건 몇 개만 고르면 후보가 확 줄어.
           </p>
         </article>
         <article>
           <span>02</span>
-          <h3>몸 상태 반영</h3>
+          <h3>몸도 봐</h3>
           <p>
-            야근 후에는 강한 맛보다 따뜻한 국물, 늦은 밤에는 기름기보다 소화
-            부담이 적은 구성이 만족도를 높입니다.
+            늦은 밤엔 무거운 튀김보다 국물이나 가벼운 단백질이 다음 날 덜 힘들어.
           </p>
         </article>
         <article>
           <span>03</span>
-          <h3>먹는 장면 상상</h3>
+          <h3>먹는 장면까지</h3>
           <p>
-            메뉴 이름만 보는 것보다 첫 입, 곁들임, 피해야 할 점까지 떠올리면
-            실제 선택의 확신이 커집니다.
+            메뉴 이름만 던지지 않아. 같이 먹을 것과 피할 점까지 같이 보여줘.
           </p>
         </article>
       </section>
@@ -253,10 +252,9 @@
       <section id="library" class="library-panel">
         <div class="section-heading">
           <p class="eyebrow">MENU NOTES</p>
-          <h2>바로 고르기 좋은 메뉴 노트</h2>
+          <h2>메뉴 노트</h2>
           <p>
-            모든 메뉴는 단순 목록이 아니라 상황, 맛의 방향, 실패를 줄이는 팁을
-            함께 제공합니다.
+            그냥 목록 아니야. 언제 먹으면 좋은지, 뭘 곁들이면 좋은지 같이 적어뒀어.
           </p>
         </div>
         <div id="quick-picks" class="quick-picks"></div>
@@ -267,12 +265,11 @@
           <p class="eyebrow">DINNER BOARD</p>
           <h2>오늘 후보판</h2>
           <p>
-            마음에 드는 추천은 후보판에 담아 비교하세요. 이 정보는 서버로
-            전송되지 않고 현재 브라우저에만 저장됩니다.
+            마음에 드는 건 담아둬. 서버로 안 보내고 네 브라우저에만 저장해.
           </p>
         </div>
         <div id="saved-empty" class="empty-state">
-          아직 저장된 메뉴가 없습니다. 추천 결과에서 후보를 담아보세요.
+          아직 담은 메뉴 없어. 괜찮은 후보 나오면 담아봐.
         </div>
         <div id="saved-list" class="saved-list"></div>
       </section>
@@ -280,38 +277,33 @@
       <section id="guide" class="guide-panel">
         <div class="section-heading">
           <p class="eyebrow">HOW TO CHOOSE</p>
-          <h2>저녁을 잘 고르는 4가지 기준</h2>
+          <h2>고를 때 이것만 봐</h2>
         </div>
         <div class="guide-grid">
           <article>
-            <h3>1. 오늘의 결핍을 먼저 본다</h3>
+            <h3>1. 지금 부족한 걸 봐</h3>
             <p>
-              허기가 큰지, 기분 전환이 필요한지, 누군가와 대화할 핑계가 필요한지
-              먼저 구분하세요. 같은 치킨도 보상, 공유, 배달 편의 중 목적이
-              다르면 만족 포인트가 달라집니다.
+              배가 고픈 건지, 기분 전환이 필요한 건지 먼저 봐. 같은 치킨도
+              보상용인지, 같이 먹을 건지에 따라 만족 포인트가 달라져.
             </p>
           </article>
           <article>
-            <h3>2. 예산은 가격보다 후회를 기준으로 잡는다</h3>
+            <h3>2. 가격보다 후회를 봐</h3>
             <p>
-              싼 메뉴도 만족하면 좋은 선택이고, 비싼 메뉴도 피곤한 날 이동이
-              길면 후회가 남습니다. 돈보다 시간과 에너지까지 포함한 비용을
-              계산하는 편이 현실적입니다.
+              싼 메뉴도 만족하면 이긴 거야. 비싼 메뉴도 이동이 귀찮으면 후회해.
+              돈보다 시간과 체력까지 같이 봐.
             </p>
           </article>
           <article>
-            <h3>3. 자극적인 맛에는 완충재를 둔다</h3>
+            <h3>3. 센 맛엔 완충재</h3>
             <p>
-              매운 음식, 튀김, 진한 양념은 산뜻한 반찬이나 음료와 같이 먹을 때
-              끝맛이 좋아집니다. 만족스러운 식사는 강도보다 균형에서 나옵니다.
+              매운 거, 튀김, 진한 양념은 산뜻한 반찬이나 음료가 있어야 끝까지 맛있어.
             </p>
           </article>
           <article>
-            <h3>4. 내일의 컨디션도 한 끼의 일부다</h3>
+            <h3>4. 내일 컨디션도 챙겨</h3>
             <p>
-              늦은 시간 과식은 당장의 즐거움은 크지만 다음 날의 피로를 만들 수
-              있습니다. 밤이 깊을수록 국물, 채소, 단백질 중심으로 무게를 조절해
-              보세요.
+              밤이 깊으면 너무 무겁게 가지 마. 내일 아침까지 생각하면 선택이 쉬워져.
             </p>
           </article>
         </div>
@@ -321,17 +313,15 @@
         <div class="discussion-header">
           <div class="section-heading">
             <p class="eyebrow">TABLE TALK</p>
-            <h2>내 브라우저에 남기는 저녁 기록</h2>
+            <h2>먹은 거 기록해둬</h2>
             <p>
-              오늘 먹은 메뉴와 한 줄 평을 남겨 다음 선택에 참고하세요. 공개
-              게시판이 아니며, 부적절한 표현은 직접 삭제할 수 있습니다.
+              나중에 또 고민할 때 보게 짧게 남겨둬. 공개 게시판 아니고 네 브라우저에만 있어.
             </p>
           </div>
           <aside class="comment-note">
-            <strong>기록 팁</strong>
+            <strong>이렇게 적어봐</strong>
             <p>
-              “맛있었다”보다 “비 오는 날 국물이 좋았다”, “양이 많아 둘이 나누기
-              좋았다”처럼 상황을 적으면 다음에 더 쓸모 있습니다.
+              “맛있음”보다 “비 오는 날 국물 좋았음”처럼 적으면 다음에 진짜 도움 돼.
             </p>
           </aside>
         </div>
@@ -339,14 +329,14 @@
         <div class="comment-shell">
           <div class="comment-toolbar">
             <div class="comment-stat">
-              <span class="comment-stat__label">저장된 기록</span>
+              <span class="comment-stat__label">기록</span>
               <strong id="comment-count">0개</strong>
             </div>
             <label class="sort-control">
               <span>정렬</span>
               <select id="comment-sort">
                 <option value="latest">최신순</option>
-                <option value="popular">만족도순</option>
+                <option value="popular">만족순</option>
               </select>
             </label>
           </div>
@@ -365,7 +355,7 @@
                 />
               </label>
               <label class="control">
-                <span>먹은 메뉴</span>
+                <span>메뉴</span>
                 <input
                   id="comment-menu"
                   name="menu"
@@ -383,21 +373,21 @@
                 name="body"
                 rows="4"
                 maxlength="220"
-                placeholder="언제, 누구와, 왜 좋았는지 적어두면 다음 선택에 도움이 됩니다."
+                placeholder="언제, 왜 좋았는지 짧게 적어봐."
                 required
               ></textarea>
             </label>
 
             <div class="comment-form__actions">
               <button id="use-current-menu" class="secondary-button" type="button">
-                현재 추천 메뉴 넣기
+                추천 메뉴 넣기
               </button>
-              <button class="primary-button" type="submit">기록 저장</button>
+              <button class="primary-button" type="submit">저장</button>
             </div>
           </form>
 
           <div id="comment-empty" class="empty-state">
-            아직 기록이 없습니다. 첫 저녁 기록을 남겨보세요.
+            아직 기록 없어. 오늘 먹은 거 하나 남겨봐.
           </div>
           <div id="comment-list" class="comment-list"></div>
         </div>
@@ -406,32 +396,28 @@
       <section id="policy" class="policy-panel">
         <div class="section-heading">
           <p class="eyebrow">EDITORIAL POLICY</p>
-          <h2>운영 원칙</h2>
+          <h2>이렇게 만들었어</h2>
           <p>
-            오늘뭐먹지는 얇은 자동 생성 페이지가 아니라, 사용자가 실제로 메뉴를
-            결정하는 데 필요한 맥락과 설명을 제공하는 것을 목표로 합니다.
+            그냥 랜덤 단어만 던지는 페이지가 아니라, 실제로 고르는 데 필요한 말만 남겼어.
           </p>
         </div>
         <div class="policy-grid">
           <article>
-            <h3>독창적인 설명</h3>
+            <h3>직접 쓴 설명</h3>
             <p>
-              메뉴마다 왜 어울리는지, 무엇과 먹으면 좋은지, 어떤 상황에서는
-              피하는 편이 좋은지 직접 작성한 설명을 제공합니다.
+              메뉴마다 왜 좋은지, 뭘 같이 먹을지, 뭐가 별로일 수 있는지 직접 적었어.
             </p>
           </article>
           <article>
-            <h3>명확한 기능</h3>
+            <h3>바로 되는 기능</h3>
             <p>
-              사용자가 기대한 추천 기능을 페이지 안에서 바로 수행하며, 불필요한
-              이동이나 클릭 유도 없이 결과를 보여줍니다.
+              다른 데 보내지 않고 이 페이지 안에서 바로 추천하고 저장하게 했어.
             </p>
           </article>
           <article>
-            <h3>광고보다 콘텐츠 우선</h3>
+            <h3>콘텐츠 먼저</h3>
             <p>
-              광고 영역을 콘텐츠 위에 덮거나 조작을 방해하지 않는 구조를 전제로
-              설계했습니다. 심사 전에는 광고보다 본문 품질을 먼저 갖춥니다.
+              광고가 들어가도 버튼이나 글을 가리지 않게, 먼저 볼만한 내용부터 채웠어.
             </p>
           </article>
         </div>
@@ -439,10 +425,9 @@
     </main>
 
     <footer class="site-footer">
-      <p>오늘뭐먹지 · 저녁 선택을 돕는 독립형 큐레이션 페이지</p>
+      <p>오늘뭐먹지 · 저녁 고르는 시간 줄여주는 페이지</p>
       <p>
-        음식 정보는 개인 취향에 따른 추천이며 의학적, 영양학적 진단을 대신하지
-        않습니다.
+        음식 추천은 취향 기준이야. 건강이나 영양 진단을 대신하진 않아.
       </p>
     </footer>
 
