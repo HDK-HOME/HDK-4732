@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "start": "python3 -m http.server 8000 --directory what-is-eat",
+    "preview": "npm start"
+  }
+}
