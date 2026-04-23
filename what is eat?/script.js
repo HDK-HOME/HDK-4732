@@ -10,7 +10,11 @@ const dinners = [
     effort: "normal",
     taste: "rice",
     reason: "기름진 만족감이랑 칼칼한 국물이 동시에 필요할 때 잘 맞아.",
-    pairing: "양배추 샐러드, 단무지, 따뜻한 보리차",
+    drink: "시원한 맥주나 제로콜라",
+    calories: 850,
+    calorieLevel: 4,
+    calorieComment: "튀김이랑 국물이 같이 와서 오늘은 꽤 묵직한 편이야.",
+    verdict: "든든함은 확실한데 늦게 먹으면 내일 아침 얼굴이 살짝 부을 수 있어.",
     caution: "국물이 짤 수 있으니까 밥은 조금 남겨두고 조절해.",
     ritual: "첫 입은 제일 바삭한 조각부터 먹고, 뒤에는 국물에 적셔 먹어봐.",
     home: "냉동 돈카츠랑 김치찌개 베이스만 있어도 꽤 그럴듯해.",
@@ -27,7 +31,11 @@ const dinners = [
     effort: "normal",
     taste: "noodle",
     reason: "자극보다 따뜻함이 필요한 날에 몸이 편해.",
-    pairing: "겉절이, 오이무침, 차가운 물김치",
+    drink: "막걸리 한 잔이나 보리차",
+    calories: 620,
+    calorieLevel: 3,
+    calorieComment: "면이라 탄수화물은 있지만 튀김류보단 부담이 덜해.",
+    verdict: "속은 편한데 국물까지 다 마시면 나트륨 때문에 다음 날 조금 부을 수 있어.",
     caution: "국물이 너무 진하면 금방 물릴 수 있어. 김치 맛있는 곳으로 가.",
     ritual: "국물 먼저 두 숟갈 먹고 면을 섞으면 고소함이 확 살아나.",
     home: "칼국수면에 들깨가루, 버섯, 애호박만 넣어도 충분해.",
@@ -44,7 +52,11 @@ const dinners = [
     effort: "quick",
     taste: "vegetable",
     reason: "가볍게 먹고 싶은데 대충 때운 느낌은 싫을 때 좋아.",
-    pairing: "아보카도, 현미밥, 와사비 간장, 미소국",
+    drink: "탄산수나 드라이 화이트와인",
+    calories: 520,
+    calorieLevel: 2,
+    calorieComment: "밥 양만 조절하면 꽤 가벼운 축에 들어가.",
+    verdict: "내일 몸이 무겁진 않을 거야. 대신 배고픈 날엔 밤에 간식 생각날 수 있어.",
     caution: "소스 많이 넣으면 산뜻함이 죽어. 처음엔 절반만 넣어.",
     ritual: "처음엔 재료별로 먹고, 중간부터 소스를 섞어봐.",
     home: "훈제연어, 샐러드 채소, 현미밥, 간장 소스면 금방 만들어.",
@@ -61,7 +73,11 @@ const dinners = [
     effort: "normal",
     taste: "protein",
     reason: "자극적인 맛이랑 고르는 재미가 필요할 때 몰입감이 커.",
-    pairing: "꿔바로우, 오이무침, 차가운 우롱차",
+    drink: "차가운 맥주나 무가당 우롱차",
+    calories: 980,
+    calorieLevel: 5,
+    calorieComment: "기름, 소스, 당면이 붙으면 칼로리가 빠르게 올라가.",
+    verdict: "스트레스는 풀리는데 내일 얼굴 붓기랑 속 쓰림은 감수해야 해.",
     caution: "늦은 밤이면 맵기랑 기름 단계를 낮춰. 다음 날 덜 힘들어.",
     ritual: "채소, 고기, 면 순서로 먹으면 기름진 맛이 천천히 올라와.",
     home: "마라 소스에 숙주, 청경채, 소고기, 넓적당면 넣으면 끝이야.",
@@ -78,7 +94,11 @@ const dinners = [
     effort: "slow",
     taste: "protein",
     reason: "누군가랑 하루를 정리하고 싶을 때 식탁 리듬이 생겨.",
-    pairing: "쌈채소, 구운 마늘, 파절이, 된장찌개",
+    drink: "소주, 라거 맥주, 탄산수",
+    calories: 1100,
+    calorieLevel: 5,
+    calorieComment: "고기 양이 늘면 바로 고칼로리야. 쌈 비율을 올리면 조금 낫고.",
+    verdict: "만족감은 최상인데 술까지 붙으면 다이어트는 오늘 쉬는 날이라고 봐.",
     caution: "너무 배고픈 상태로 가면 굽는 시간이 길게 느껴져.",
     ritual: "첫 점은 소금만 찍고, 두 번째부터 김치랑 쌈으로 가.",
     home: "두꺼운 팬이나 에어프라이어 쓰면 기름 튐을 줄일 수 있어.",
@@ -95,7 +115,11 @@ const dinners = [
     effort: "slow",
     taste: "noodle",
     reason: "분위기는 내고 싶은데 무거운 코스는 부담스러울 때 좋아.",
-    pairing: "루콜라 샐러드, 바게트, 탄산수",
+    drink: "화이트와인이나 탄산수",
+    calories: 760,
+    calorieLevel: 3,
+    calorieComment: "오일과 면이 있어서 가볍진 않지만 크림보단 덜 무거워.",
+    verdict: "데이트 전후로도 무난해. 마늘 향만 강한 집이면 대화 전에 물 챙겨.",
     caution: "크림 메뉴랑 같이 시키면 전체가 좀 무거워질 수 있어.",
     ritual: "새우 먼저 먹고, 남은 소스는 빵으로 가볍게 정리해.",
     home: "홀토마토, 냉동 새우, 마늘, 올리브오일이면 충분히 맛 나.",
@@ -112,7 +136,11 @@ const dinners = [
     effort: "quick",
     taste: "rice",
     reason: "머리 복잡한 날에도 주문이 쉽고 먹기 편해.",
-    pairing: "계란말이, 김, 콩나물무침",
+    drink: "차가운 보리차나 소주 한 잔",
+    calories: 650,
+    calorieLevel: 3,
+    calorieComment: "밥 한 공기까지 먹으면 중간 이상이야. 그래도 튀김보단 낫다.",
+    verdict: "속은 따뜻해지는데 국물 다 마시면 붓기 가능성 있어. 소개팅 전날엔 국물 적당히.",
     caution: "너무 맵게 가면 순두부의 부드러움이 사라져.",
     ritual: "계란 바로 풀지 말고 살짝 익힌 뒤 밥 위에 얹어봐.",
     home: "순두부, 찌개 양념, 대파, 계란만 있으면 10분 컷이야.",
@@ -129,7 +157,11 @@ const dinners = [
     effort: "quick",
     taste: "vegetable",
     reason: "밥은 부담스럽고, 대충 때우긴 싫을 때 딱 맞아.",
-    pairing: "라임 탄산수, 고수 추가, 감자튀김 소량",
+    drink: "라임 탄산수나 가벼운 라거",
+    calories: 560,
+    calorieLevel: 2,
+    calorieComment: "빵 메뉴치고는 채소가 있어서 부담이 낮은 편이야.",
+    verdict: "가볍게 기분 전환하기 좋아. 감자튀김 추가하면 바로 다른 게임이 돼.",
     caution: "배달 거리가 길면 빵이 눅눅해져. 가까운 매장으로 가.",
     ritual: "반으로 잘라서 첫 절반은 그대로, 나머지는 칠리소스 살짝 더해.",
     home: "바게트에 불고기, 피클 채소, 마요 넣으면 비슷한 재미가 나.",
@@ -146,7 +178,11 @@ const dinners = [
     effort: "quick",
     taste: "rice",
     reason: "고민할 시간 없이 힘 채워야 할 때 목적이 분명해.",
-    pairing: "계란후라이, 상추, 미역국",
+    drink: "제로콜라나 차가운 보리차",
+    calories: 820,
+    calorieLevel: 4,
+    calorieComment: "양념이랑 밥이 강해서 생각보다 칼로리가 높아.",
+    verdict: "에너지는 확 차는데 양념 때문에 물이 계속 당길 수 있어. 야식으론 무거워.",
     caution: "양념이 과하면 텁텁해. 채소가 좀 있는 곳이 좋아.",
     ritual: "처음엔 고기랑 밥 따로 먹고, 중간부터 노른자 터뜨려 섞어.",
     home: "앞다리살, 고추장, 간장, 설탕, 양파면 냉장고 털기 가능해.",
@@ -163,7 +199,11 @@ const dinners = [
     effort: "normal",
     taste: "protein",
     reason: "기름진 메뉴 말고 깔끔하게 기분 내고 싶을 때 좋아.",
-    pairing: "미소국, 차완무시, 생강절임",
+    drink: "사케, 샴페인, 드라이 화이트와인",
+    calories: 620,
+    calorieLevel: 3,
+    calorieComment: "깔끔해 보여도 밥이 있어서 세트로 먹으면 중간 정도야.",
+    verdict: "얼굴 붓기 걱정은 비교적 덜해. 많이 배고픈 날엔 먹고 나서 허전할 수 있어.",
     caution: "많이 배고프면 우동이나 후토마키를 같이 봐.",
     ritual: "흰살 생선부터 시작해서 진한 생선, 마지막은 계란으로 정리해.",
     home: "마트 초밥도 접시에 옮기고 미소국 더하면 만족감 올라가.",
@@ -180,7 +220,11 @@ const dinners = [
     effort: "slow",
     taste: "protein",
     reason: "자극보다 든든한 온기랑 같이 먹는 느낌이 필요할 때 좋아.",
-    pairing: "부추 양념장, 감자, 칼국수 사리",
+    drink: "소주, 청주, 탄산수",
+    calories: 900,
+    calorieLevel: 4,
+    calorieComment: "닭고기는 괜찮은데 칼국수 사리까지 가면 꽤 올라가.",
+    verdict: "몸보신 느낌은 좋은데 국물과 사리를 끝까지 가면 다음 날 몸이 무거울 수 있어.",
     caution: "처음부터 양념장 많이 넣으면 맑은 국물 맛이 가려져.",
     ritual: "닭고기 먼저 양념장에 찍고, 마지막에 칼국수로 끝내.",
     home: "닭, 대파, 감자, 마늘 오래 끓이면 비슷한 국물이 나.",
@@ -197,7 +241,11 @@ const dinners = [
     effort: "quick",
     taste: "noodle",
     reason: "입맛은 없는데 뭔가 확실히 먹고 싶을 때 산뜻하게 열어줘.",
-    pairing: "고기만두, 오이채, 삶은 계란",
+    drink: "탄산수나 가벼운 맥주",
+    calories: 700,
+    calorieLevel: 3,
+    calorieComment: "국수만 보면 가벼운데 만두가 붙으면 중간 이상이야.",
+    verdict: "상큼해서 기분은 좋아져. 다만 매운 양념이면 늦은 밤 속이 예민할 수 있어.",
     caution: "소스가 미리 섞여 오면 면이 불어. 가능하면 분리 요청해.",
     ritual: "면 먼저 한 입 먹고, 만두를 소스에 살짝 찍어 먹어봐.",
     home: "소면, 초고추장, 참기름, 김가루만 있어도 금방 돼.",
@@ -206,12 +254,10 @@ const dinners = [
 ];
 
 const themeToggle = document.querySelector("#theme-toggle");
-const heroRandomButton = document.querySelector("#hero-random-button");
 const randomBoxButton = document.querySelector("#random-box-button");
 const randomBoxResult = document.querySelector("#random-box-result");
 const pickButton = document.querySelector("#pick-button");
 const saveButton = document.querySelector("#save-button");
-const surpriseButton = document.querySelector("#surprise-button");
 const moodSelect = document.querySelector("#mood");
 const hungerSelect = document.querySelector("#hunger");
 const budgetSelect = document.querySelector("#budget");
@@ -236,11 +282,15 @@ const useCurrentMenuButton = document.querySelector("#use-current-menu");
 const menuName = document.querySelector("#menu-name");
 const menuDescription = document.querySelector("#menu-description");
 const menuReason = document.querySelector("#menu-reason");
-const menuPairing = document.querySelector("#menu-pairing");
+const menuDrink = document.querySelector("#menu-drink");
 const menuCaution = document.querySelector("#menu-caution");
 const menuRitual = document.querySelector("#menu-ritual");
 const menuHome = document.querySelector("#menu-home");
 const menuOut = document.querySelector("#menu-out");
+const menuCalories = document.querySelector("#menu-calories");
+const calorieComment = document.querySelector("#calorie-comment");
+const menuVerdict = document.querySelector("#menu-verdict");
+const calorieBars = [...document.querySelectorAll(".calorie-meter span")];
 
 const COMMENT_STORAGE_KEY = "dinner-comments-v2";
 const COMMENT_AUTHOR_KEY = "dinner-comment-author";
@@ -317,16 +367,28 @@ function renderMenu(item) {
   menuName.textContent = item.menu.name;
   menuDescription.textContent = item.menu.description;
   menuReason.textContent = item.menu.reason;
-  menuPairing.textContent = item.menu.pairing;
+  menuDrink.textContent = item.menu.drink;
   menuCaution.textContent = item.menu.caution;
   menuRitual.textContent = item.menu.ritual;
   menuHome.textContent = item.menu.home;
   menuOut.textContent = item.menu.out;
+  menuCalories.textContent = `약 ${item.menu.calories.toLocaleString("ko-KR")}kcal`;
+  calorieComment.textContent = item.menu.calorieComment;
+  menuVerdict.textContent = item.menu.verdict;
+  updateCalorieMeter(item.menu.calorieLevel);
   matchScore.textContent = `${item.score}%`;
   matchCount.textContent =
     item.active === 0
       ? "조건 고르면 더 잘 맞춰줄게."
       : `${item.active}개 중 ${item.matched}개 맞는 후보야.`;
+}
+
+function updateCalorieMeter(level) {
+  calorieBars.forEach((bar, index) => {
+    const isActive = index < level;
+    bar.classList.toggle("is-active", isActive);
+    bar.dataset.level = String(level);
+  });
 }
 
 function pickDinner() {
@@ -378,7 +440,8 @@ function renderQuickPicks() {
           <p>${escapeHtml(menu.description)}</p>
           <dl>
             <div><dt>추천 이유</dt><dd>${escapeHtml(menu.reason)}</dd></div>
-            <div><dt>곁들임</dt><dd>${escapeHtml(menu.pairing)}</dd></div>
+            <div><dt>음료</dt><dd>${escapeHtml(menu.drink)}</dd></div>
+            <div><dt>칼로리</dt><dd>약 ${menu.calories.toLocaleString("ko-KR")}kcal</dd></div>
           </dl>
         </article>
       `
@@ -411,7 +474,9 @@ function saveCurrentMenu() {
         {
           name: currentMenu.name,
           reason: currentMenu.reason,
-          pairing: currentMenu.pairing,
+          drink: currentMenu.drink,
+          calories: currentMenu.calories,
+          calorieLevel: currentMenu.calorieLevel,
           savedAt: Date.now(),
         },
         ...savedMenus,
@@ -436,7 +501,8 @@ function renderSavedMenus() {
           <div>
             <h3>${escapeHtml(menu.name)}</h3>
             <p>${escapeHtml(menu.reason)}</p>
-            <span>${escapeHtml(menu.pairing)}</span>
+            <span>${escapeHtml(menu.drink || "음료는 취향대로")}</span>
+            <em>약 ${Number(menu.calories || 0).toLocaleString("ko-KR")}kcal</em>
           </div>
           <button class="comment-chip" type="button" data-saved-delete="${escapeHtml(
             menu.name
@@ -550,8 +616,6 @@ themeToggle.addEventListener("click", () => {
 });
 
 pickButton.addEventListener("click", pickDinner);
-surpriseButton.addEventListener("click", pickSurprise);
-heroRandomButton.addEventListener("click", spinRandomBox);
 randomBoxButton.addEventListener("click", spinRandomBox);
 saveButton.addEventListener("click", saveCurrentMenu);
 [moodSelect, hungerSelect, budgetSelect, contextSelect, effortSelect, tasteSelect].forEach(

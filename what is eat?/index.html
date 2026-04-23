@@ -69,16 +69,15 @@
           <h1>저녁 후보 딱 골라줄게</h1>
           <p class="hero-copy">
             귀찮으면 랜덤박스 돌리고, 좀 따지고 싶으면 조건만 골라.
-            메뉴랑 같이 먹을 것, 피하면 좋은 포인트까지 짧게 정리해줄게.
+            칼로리, 어울리는 술/음료, 먹고 난 뒤 느낌까지 짧게 정리해줄게.
           </p>
           <div class="hero-actions">
             <a class="primary-link" href="#picker">조건으로 고르기</a>
-            <button id="hero-random-button" class="text-link" type="button">랜덤박스 돌리기</button>
           </div>
         </div>
         <aside class="hero-card random-box" aria-label="랜덤박스">
           <span class="card-label">RANDOM BOX</span>
-          <strong>아무 생각 없으면 이거 눌러</strong>
+          <strong>랜덤박스</strong>
           <button id="random-box-button" class="random-box__button" type="button">
             오늘 메뉴 뽑기
           </button>
@@ -92,7 +91,7 @@
       <section id="picker" class="picker-panel" aria-labelledby="picker-title">
         <div class="section-heading">
           <p class="eyebrow">PICKER</p>
-          <h2 id="picker-title">조건으로 골라봐</h2>
+          <h2 id="picker-title">오늘 어떤 상탠데?</h2>
           <p>
             기분, 배고픔, 예산만 대충 골라도 돼. 조건이 안 맞아도 가장 가까운
             메뉴로 바로 추천해줄게.
@@ -188,13 +187,36 @@
             <strong id="menu-reason">지친 날에도 맛이 확실해서 좋아.</strong>
           </div>
           <div class="meta-card">
-            <span class="meta-label">같이 먹을 거</span>
-            <strong id="menu-pairing">양배추 샐러드, 따뜻한 보리차</strong>
+            <span class="meta-label">페어링 음료</span>
+            <strong id="menu-drink">시원한 맥주나 탄산수</strong>
           </div>
           <div class="meta-card">
             <span class="meta-label">이건 조심</span>
             <strong id="menu-caution">국물이 짤 수 있으니까 밥 양 조절해.</strong>
           </div>
+        </div>
+
+        <div class="health-grid">
+          <article class="calorie-card">
+            <div>
+              <span class="meta-label">살찔 가능성</span>
+              <strong id="menu-calories">약 850kcal</strong>
+            </div>
+            <div class="calorie-meter" aria-label="칼로리 정도">
+              <span id="calorie-bar-1"></span>
+              <span id="calorie-bar-2"></span>
+              <span id="calorie-bar-3"></span>
+              <span id="calorie-bar-4"></span>
+              <span id="calorie-bar-5"></span>
+            </div>
+            <p id="calorie-comment">기름이랑 국물이 같이 와서 오늘은 꽤 묵직한 편이야.</p>
+          </article>
+          <article class="verdict-card">
+            <span class="meta-label">먹고 나면</span>
+            <strong id="menu-verdict">
+              든든함은 확실한데 늦게 먹으면 내일 아침 얼굴이 살짝 부을 수 있어.
+            </strong>
+          </article>
         </div>
 
         <div class="detail-grid">
@@ -219,10 +241,19 @@
           <button id="save-button" class="secondary-button" type="button">
             후보에 담기
           </button>
-          <button id="surprise-button" class="secondary-button" type="button">
-            랜덤으로 가기
-          </button>
         </div>
+
+        <section class="board-panel inline-board" aria-label="오늘 후보판">
+          <div class="section-heading">
+            <p class="eyebrow">DINNER BOARD</p>
+            <h2>담아둔 후보</h2>
+            <p>마음에 드는 건 바로 담아둬. 여기서 한눈에 비교하면 돼.</p>
+          </div>
+          <div id="saved-empty" class="empty-state">
+            아직 담은 메뉴 없어. 괜찮은 후보 나오면 담아봐.
+          </div>
+          <div id="saved-list" class="saved-list"></div>
+        </section>
       </section>
 
       <section class="insight-strip" aria-label="저녁 선택 인사이트">
@@ -244,7 +275,7 @@
           <span>03</span>
           <h3>먹는 장면까지</h3>
           <p>
-            메뉴 이름만 던지지 않아. 같이 먹을 것과 피할 점까지 같이 보여줘.
+            메뉴 이름만 던지지 않아. 칼로리랑 먹고 난 뒤 느낌까지 같이 보여줘.
           </p>
         </article>
       </section>
@@ -260,50 +291,38 @@
         <div id="quick-picks" class="quick-picks"></div>
       </section>
 
-      <section class="board-panel">
-        <div class="section-heading">
-          <p class="eyebrow">DINNER BOARD</p>
-          <h2>오늘 후보판</h2>
-          <p>
-            마음에 드는 건 담아둬. 서버로 안 보내고 네 브라우저에만 저장해.
-          </p>
-        </div>
-        <div id="saved-empty" class="empty-state">
-          아직 담은 메뉴 없어. 괜찮은 후보 나오면 담아봐.
-        </div>
-        <div id="saved-list" class="saved-list"></div>
-      </section>
-
       <section id="guide" class="guide-panel">
         <div class="section-heading">
-          <p class="eyebrow">HOW TO CHOOSE</p>
-          <h2>고를 때 이것만 봐</h2>
+          <p class="eyebrow">REAL TALK</p>
+          <h2>먹고 나면 이런 느낌</h2>
         </div>
         <div class="guide-grid">
           <article>
-            <h3>1. 지금 부족한 걸 봐</h3>
+            <h3>국물 진한 거</h3>
             <p>
-              배가 고픈 건지, 기분 전환이 필요한 건지 먼저 봐. 같은 치킨도
-              보상용인지, 같이 먹을 건지에 따라 만족 포인트가 달라져.
+              라면, 찌개, 마라탕처럼 짠 국물은 오늘 밤 만족감은 큰데 내일 아침 얼굴이
+              부을 수 있어. 중요한 약속 있으면 국물은 반만 가.
             </p>
           </article>
           <article>
-            <h3>2. 가격보다 후회를 봐</h3>
+            <h3>튀김이랑 고기</h3>
             <p>
-              싼 메뉴도 만족하면 이긴 거야. 비싼 메뉴도 이동이 귀찮으면 후회해.
-              돈보다 시간과 체력까지 같이 봐.
+              기분 회복은 빠른데 칼로리는 확 올라가. 대신 단백질도 같이 들어오니까
+              너무 늦은 시간만 아니면 만족도는 높아.
             </p>
           </article>
           <article>
-            <h3>3. 센 맛엔 완충재</h3>
+            <h3>가벼운 샐러드류</h3>
             <p>
-              매운 거, 튀김, 진한 양념은 산뜻한 반찬이나 음료가 있어야 끝까지 맛있어.
+              살 걱정은 덜한데 배고픈 날엔 금방 허전해질 수 있어. 밥이나 단백질이
+              조금 들어간 메뉴를 고르면 밤에 과자 찾을 확률이 줄어.
             </p>
           </article>
           <article>
-            <h3>4. 내일 컨디션도 챙겨</h3>
+            <h3>술이랑 먹는 메뉴</h3>
             <p>
-              밤이 깊으면 너무 무겁게 가지 마. 내일 아침까지 생각하면 선택이 쉬워져.
+              술이 들어가면 메뉴보다 안주 양이 문제야. 맥주엔 튀김, 소주엔 국물,
+              와인엔 해산물처럼 맞추되 마지막 탄수화물 추가만 조심해.
             </p>
           </article>
         </div>

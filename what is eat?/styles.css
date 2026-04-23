@@ -439,7 +439,6 @@ h3 {
 .picker-panel,
 .result-panel,
 .library-panel,
-.board-panel,
 .guide-panel,
 .discussion-panel,
 .policy-panel {
@@ -483,10 +482,26 @@ textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: var(--surface-strong);
-  color: var(--text);
   padding: 15px 16px;
   outline: none;
+}
+
+select {
+  background: #f7f9ff;
+  color: #101828;
+  color-scheme: light;
+  font-weight: 900;
+}
+
+select option {
+  background: #ffffff;
+  color: #101828;
+}
+
+input,
+textarea {
+  background: var(--surface-strong);
+  color: var(--text);
 }
 
 textarea {
@@ -548,11 +563,14 @@ textarea {
 }
 
 .meta-card,
+.calorie-card,
+.verdict-card,
 .detail-grid article,
 .guide-grid article,
 .policy-grid article,
 .quick-card,
 .saved-card,
+.inline-board,
 .comment-note,
 .comment-shell {
   border: 1px solid var(--line);
@@ -569,6 +587,63 @@ textarea {
   margin-top: 9px;
   font-size: 1.04rem;
   line-height: 1.55;
+}
+
+.health-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.calorie-card,
+.verdict-card {
+  padding: 22px;
+}
+
+.calorie-card {
+  display: grid;
+  gap: 16px;
+}
+
+.calorie-card strong,
+.verdict-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.35rem;
+  line-height: 1.42;
+}
+
+.calorie-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.calorie-meter {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.calorie-meter span {
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.calorie-meter span.is-active[data-level="1"],
+.calorie-meter span.is-active[data-level="2"] {
+  background: #2997ff;
+}
+
+.calorie-meter span.is-active[data-level="3"] {
+  background: #facc15;
+}
+
+.calorie-meter span.is-active[data-level="4"],
+.calorie-meter span.is-active[data-level="5"] {
+  background: #ff4d6d;
 }
 
 .detail-grid {
@@ -598,6 +673,12 @@ textarea {
 .primary-button,
 .secondary-button {
   padding: 0 18px;
+}
+
+.inline-board {
+  margin-top: 24px;
+  padding: 22px;
+  box-shadow: none;
 }
 
 .insight-strip {
@@ -663,7 +744,7 @@ textarea {
   width: fit-content;
   align-items: center;
   border-radius: 999px;
-  background: rgba(255, 139, 56, 0.16);
+  background: rgba(41, 151, 255, 0.16);
   color: var(--accent-strong);
   padding: 7px 10px;
   font-size: 0.82rem;
@@ -693,6 +774,14 @@ textarea {
 
 .saved-card p {
   margin: 8px 0 12px;
+}
+
+.saved-card em {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 900;
 }
 
 .guide-grid,
@@ -935,6 +1024,7 @@ textarea {
   .result-layout,
   .control-grid,
   .result-meta,
+  .health-grid,
   .detail-grid,
   .insight-strip,
   .quick-picks,
@@ -968,7 +1058,6 @@ textarea {
   .picker-panel,
   .result-panel,
   .library-panel,
-  .board-panel,
   .guide-panel,
   .discussion-panel,
   .policy-panel {
