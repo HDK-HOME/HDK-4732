@@ -3,9 +3,6 @@
   "main": "worker.js",
   "compatibility_date": "2026-04-24",
   "compatibility_flags": ["nodejs_compat"],
-  "secrets": {
-    "required": ["NAVER_CLIENT_ID", "NAVER_CLIENT_SECRET"]
-  },
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
