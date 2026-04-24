@@ -23,6 +23,9 @@ NAVER_CLIENT_SECRET=YOUR_NAVER_CLIENT_SECRET
 
 이 프로젝트는 `wrangler.jsonc`와 `worker.js`를 포함하므로 Cloudflare Workers로 배포할 수 있습니다.
 
+- Cloudflare 배포 시: Worker `env.NAVER_CLIENT_ID`, `env.NAVER_CLIENT_SECRET` 사용
+- 로컬 Node 실행 시: `process.env.NAVER_CLIENT_ID`, `process.env.NAVER_CLIENT_SECRET` 사용
+
 로컬에서 Cloudflare 방식으로 확인하려면:
 
 ```bash

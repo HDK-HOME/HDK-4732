@@ -16,6 +16,8 @@ cp .env.example .env
 npm start
 ```
 
+- 로컬 Node 서버는 `process.env.NAVER_CLIENT_ID`, `process.env.NAVER_CLIENT_SECRET`를 읽습니다.
+
 ## Cloudflare
 
 이 프로젝트는 `wrangler.jsonc` 기반 Worker 배포 구조입니다.
@@ -37,6 +39,8 @@ npm start
 
 - `NAVER_CLIENT_ID`
 - `NAVER_CLIENT_SECRET`
+
+- Cloudflare Worker 런타임에서는 `env.NAVER_CLIENT_ID`, `env.NAVER_CLIENT_SECRET`로 읽습니다.
 
 ### Local check
 

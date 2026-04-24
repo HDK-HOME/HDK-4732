@@ -3,13 +3,10 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { URL } = require("node:url");
 
+let rankingCorePromise;
 const HOST = "0.0.0.0";
 const PORT = Number.parseInt(process.env.PORT || "8000", 10);
 const ROOT = __dirname;
-const CLIENT_ID = process.env.NAVER_CLIENT_ID || "";
-const CLIENT_SECRET = process.env.NAVER_CLIENT_SECRET || "";
-const MAX_RESULTS = 500;
-const PAGE_SIZE = 100;
 
 const MIME_TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -52,132 +49,16 @@ async function handleRankingApi(requestUrl, response) {
   const keyword = requestUrl.searchParams.get("keyword")?.trim() || "";
   const mode = requestUrl.searchParams.get("mode")?.trim() || "api";
   const requestedLimit = Number.parseInt(requestUrl.searchParams.get("limit") || "100", 10);
-  const limit = Math.max(1, Math.min(MAX_RESULTS, Number.isNaN(requestedLimit) ? 100 : requestedLimit));
-
-  if (!store || !keyword) {
-    sendJson(response, 400, {
-      ok: false,
-      error: "bad_request",
-      message: "store and keyword are required",
-    });
-    return;
-  }
-
-  if (mode !== "api") {
-    sendJson(response, 400, {
-      ok: false,
-      error: "unsupported_mode",
-      message: "Only api mode is available right now. Web mode is reserved for future crawling logic.",
-    });
-    return;
-  }
-
-  if (!CLIENT_ID || !CLIENT_SECRET) {
-    sendJson(response, 400, {
-      ok: false,
-      error: "missing_credentials",
-      message: "Set NAVER_CLIENT_ID and NAVER_CLIENT_SECRET before calling the API.",
-    });
-    return;
-  }
-
-  const pages = buildPages(limit);
-  const allItems = [];
-
-  for (const page of pages) {
-    const pageItems = await fetchShoppingPage(keyword, page.start, page.display);
-    allItems.push(...pageItems);
-
-    if (pageItems.length < page.display) {
-      break;
-    }
-  }
-
-  const normalizedStore = normalizeText(store);
-  const looseNormalizedStore = normalizeStoreName(store);
-  const filteredItems = allItems.slice(0, limit).map((item, index) => ({
-    rank: index + 1,
-    title: stripTags(item.title || ""),
-    mallName: item.mallName || "",
-    normalizedMallName: normalizeStoreName(item.mallName || ""),
-    link: item.link || "",
-    image: item.image || "",
-    lprice: Number.parseInt(item.lprice || "0", 10) || 0,
-    productId: item.productId || "",
-  }));
-
-  const matches = filteredItems.filter((item) => {
-    const exact = normalizeText(item.mallName).includes(normalizedStore);
-    const loose =
-      looseNormalizedStore &&
-      item.normalizedMallName &&
-      (item.normalizedMallName.includes(looseNormalizedStore) ||
-        looseNormalizedStore.includes(item.normalizedMallName));
-    return exact || loose;
-  });
-  const best = matches[0] || null;
-  const candidateMallNames = buildCandidateMallNames(filteredItems, normalizedStore, looseNormalizedStore);
-
-  sendJson(response, 200, {
-    ok: true,
-    mode,
-    modeLabel: "네이버 공식 API 기준",
-    keyword,
+  const limit = Number.isNaN(requestedLimit) ? 100 : requestedLimit;
+  const rankingCore = await loadRankingCore();
+  const { status, payload } = await rankingCore.getRankingPayload({
     store,
+    keyword,
+    mode,
     limit,
-    fetchedCount: filteredItems.length,
-    bestRank: best ? best.rank : null,
-    matches,
-    debugMallNames: filteredItems.map((item) => ({
-      rank: item.rank,
-      title: item.title,
-      mallName: item.mallName,
-      normalizedMallName: item.normalizedMallName,
-      link: item.link,
-      lprice: item.lprice,
-    })),
-    candidateMallNames,
-    items: filteredItems,
+    processEnv: process.env,
   });
-}
-
-async function fetchShoppingPage(keyword, start, display) {
-  const url = new URL("https://openapi.naver.com/v1/search/shop.json");
-  url.searchParams.set("query", keyword);
-  url.searchParams.set("display", String(display));
-  url.searchParams.set("start", String(start));
-  url.searchParams.set("sort", "sim");
-
-  const result = await fetch(url, {
-    headers: {
-      "X-Naver-Client-Id": CLIENT_ID,
-      "X-Naver-Client-Secret": CLIENT_SECRET,
-      Accept: "application/json",
-      "User-Agent": "what-is-score/1.0",
-    },
-  });
-
-  if (!result.ok) {
-    const body = await result.text();
-    throw new Error(`Naver API error ${result.status}: ${body.slice(0, 300)}`);
-  }
-
-  const data = await result.json();
-  return Array.isArray(data.items) ? data.items : [];
-}
-
-function buildPages(limit) {
-  const pages = [];
-
-  for (let start = 1; start <= limit; start += PAGE_SIZE) {
-    const remaining = limit - start + 1;
-    pages.push({
-      start,
-      display: Math.min(PAGE_SIZE, remaining),
-    });
-  }
-
-  return pages;
+  sendJson(response, status, payload);
 }
 
 function serveStatic(pathname, response) {
@@ -225,74 +106,9 @@ function sendText(response, statusCode, text) {
   response.end(text);
 }
 
-function normalizeText(value) {
-  return String(value || "").replaceAll(/\s+/g, "").toLowerCase();
-}
-
-function normalizeStoreName(value) {
-  return normalizeText(value)
-    .replaceAll(/\(주\)|주식회사|공식스토어|공식몰|공식|스토어|smartstore|shop|몰/gi, "")
-    .replaceAll(/[^0-9a-z가-힣]/gi, "");
-}
-
-function stripTags(value) {
-  return String(value || "").replaceAll(/<[^>]+>/g, "");
-}
-
-function buildCandidateMallNames(items, normalizedStore, looseNormalizedStore) {
-  const seen = new Set();
-  const scored = items
-    .map((item) => {
-      const raw = normalizeText(item.mallName);
-      const loose = item.normalizedMallName;
-      let score = 0;
-
-      if (raw === normalizedStore) {
-        score += 100;
-      }
-      if (raw.includes(normalizedStore) || normalizedStore.includes(raw)) {
-        score += 60;
-      }
-      if (loose && looseNormalizedStore && loose === looseNormalizedStore) {
-        score += 90;
-      }
-      if (loose && looseNormalizedStore && (loose.includes(looseNormalizedStore) || looseNormalizedStore.includes(loose))) {
-        score += 50;
-      }
-      score += sharedCharacters(loose, looseNormalizedStore);
-
-      return {
-        rank: item.rank,
-        mallName: item.mallName,
-        normalizedMallName: item.normalizedMallName,
-        title: item.title,
-        score,
-      };
-    })
-    .filter((item) => {
-      const key = `${item.mallName}-${item.rank}`;
-      if (seen.has(key) || item.score <= 0) {
-        return false;
-      }
-      seen.add(key);
-      return true;
-    })
-    .sort((left, right) => right.score - left.score || left.rank - right.rank)
-    .slice(0, 10);
-
-  return scored;
-}
-
-function sharedCharacters(left, right) {
-  if (!left || !right) {
-    return 0;
+async function loadRankingCore() {
+  if (!rankingCorePromise) {
+    rankingCorePromise = import(path.join(ROOT, "ranking-core.mjs"));
   }
-
-  let score = 0;
-  for (const char of new Set(left.split(""))) {
-    if (right.includes(char)) {
-      score += 2;
-    }
-  }
-  return score;
+  return rankingCorePromise;
 }
