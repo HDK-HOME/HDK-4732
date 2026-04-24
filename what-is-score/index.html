@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>What Is Score</title>
+    <title>마스터홍 | 판매신호 분석기</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="hero">
-        <p class="eyebrow">What Is Score</p>
-        <h1>돈냄새 순위체크.</h1>
+        <img class="brand-logo" src="./assets/brand/masterhong-wordmark-main.svg" alt="마스터홍 판매신호 분석기" />
+        <p class="eyebrow">Master Hong</p>
+        <h1>마스터홍.</h1>
         <p class="hero-copy">
           사장님 상품,
           <br />
@@ -90,6 +91,53 @@
             <button class="button secondary action-button" type="button" data-action="longtail">롱테일 키워드 찾기</button>
           </div>
           <div id="actionGuide" class="guide-card"></div>
+        </section>
+
+        <section class="panel signal-analysis-panel">
+          <div class="panel-top">
+            <div>
+              <h2>판매신호 분석기</h2>
+              <p>마스터홍 확장 프로그램에서 상품 분석하기를 누르면 자동으로 결과가 표시됩니다.</p>
+            </div>
+          </div>
+
+          <div class="signal-help-card signal-main-guide">
+            <strong>크롬 확장 프로그램에서 시작하세요.</strong>
+            <p>네이버 상품 페이지에서 마스터홍 판매신호의 “이 상품 분석하기” 버튼을 누르면 이곳에 결과가 자동으로 기록됩니다.</p>
+            <p>네이버 공식 판매량이 아니라 사용자 브라우저에서 공개 페이지를 읽어 감지한 판매신호입니다.</p>
+            <p id="signalAnalysisStatus" class="status-text inline-status">대기중</p>
+          </div>
+
+          <details class="developer-signal-tools">
+            <summary>개발자용 JSON 붙여넣기</summary>
+            <div class="signal-input-grid">
+              <label class="signal-json-field">
+                <span>확장 프로그램 JSON</span>
+                <textarea id="signalJsonInput" placeholder="확장 프로그램에서 복사한 JSON을 붙여넣으세요."></textarea>
+              </label>
+              <div class="signal-help-card">
+                <strong>수동 테스트</strong>
+                <p>URL 전달이 아닌 복사 JSON으로 테스트할 때만 사용합니다.</p>
+                <button id="analyzeSignalButton" class="button primary" type="button">판매신호 분석하기</button>
+              </div>
+            </div>
+          </details>
+
+          <div id="signalAnalysisResult" class="signal-analysis-result"></div>
+        </section>
+
+        <section class="panel extension-install-panel">
+          <div class="panel-top">
+            <div>
+              <h2>크롬 확장 설치</h2>
+              <p>네이버 상품 페이지에서 버튼 한 번으로 마스터홍 판매신호 분석 결과를 열 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="extension-install-card">
+            <strong>마스터홍 판매신호</strong>
+            <p>Chrome 웹스토어 출시 전입니다. 출시 후 이 버튼이 설치 페이지로 연결됩니다.</p>
+            <button id="extensionStoreButton" class="button secondary" type="button">출시 준비중</button>
+          </div>
         </section>
 
         <section class="panel detail-panel">

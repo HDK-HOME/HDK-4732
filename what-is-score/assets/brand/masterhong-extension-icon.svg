@@ -1,0 +1,33 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#1b130c"/>
+      <stop offset="65%" stop-color="#050403"/>
+      <stop offset="100%" stop-color="#000"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0a6"/>
+      <stop offset="0.25" stop-color="#e9b844"/>
+      <stop offset="0.52" stop-color="#8a530c"/>
+      <stop offset="0.75" stop-color="#ffd96c"/>
+      <stop offset="1" stop-color="#a56a14"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#000" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+  <rect width="1024" height="1024" rx="190" fill="url(#bg)"/>
+  <rect x="54" y="54" width="916" height="916" rx="150" fill="none" stroke="url(#gold)" stroke-width="28"/>
+  <rect x="98" y="98" width="828" height="828" rx="116" fill="none" stroke="#ffd772" stroke-width="5" opacity="0.22"/>
+  <text x="512" y="455" text-anchor="middle" dominant-baseline="middle"
+        font-family="Pretendard, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif"
+        font-size="230" font-weight="900" letter-spacing="-12"
+        fill="url(#gold)" stroke="#3a2105" stroke-width="7" paint-order="stroke fill" filter="url(#shadow)">마홍</text>
+  <text x="512" y="620" text-anchor="middle"
+        font-family="Pretendard, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif"
+        font-size="90" font-weight="900" letter-spacing="-5"
+        fill="url(#gold)" stroke="#3a2105" stroke-width="3" paint-order="stroke fill">마스터홍</text>
+  <text x="512" y="735" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="48" font-weight="700" letter-spacing="8"
+        fill="#d7a942">SIGNAL</text>
+</svg>

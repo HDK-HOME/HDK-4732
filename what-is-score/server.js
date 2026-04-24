@@ -50,7 +50,7 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`What Is Score server running on http://${HOST}:${PORT}`);
+  console.log(`마스터홍 server running on http://${HOST}:${PORT}`);
 });
 
 async function handleRankingApi(requestUrl, response) {

@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "마스터홍 판매신호",
+  "short_name": "마스터홍",
+  "version": "0.1.0",
+  "description": "네이버 상품 페이지에서 공개 판매신호, 리뷰 수, 관심고객수, 가격 정보를 감지해 마스터홍 판매신호 분석기에서 분석합니다.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "https://smartstore.naver.com/*",
+    "https://brand.naver.com/*",
+    "https://search.shopping.naver.com/*",
+    "https://shopping.naver.com/*",
+    "https://m.smartstore.naver.com/*",
+    "https://msearch.shopping.naver.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "마스터홍 판매신호",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

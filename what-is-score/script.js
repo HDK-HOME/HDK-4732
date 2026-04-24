@@ -1,4 +1,5 @@
 const STORAGE_KEY = "what-is-score-ranking-state";
+const EXTENSION_STORE_URL = "";
 
 const defaultState = {
   keyword: "",
@@ -7,6 +8,7 @@ const defaultState = {
   softMode: false,
   history: [],
   rows: [],
+  signalRecords: [],
 };
 
 const sampleState = {
@@ -16,6 +18,7 @@ const sampleState = {
   softMode: false,
   history: [],
   rows: [],
+  signalRecords: [],
 };
 
 const state = loadState();
@@ -36,12 +39,18 @@ const elements = {
   prescriptionCard: document.querySelector("#prescriptionCard"),
   actionGuide: document.querySelector("#actionGuide"),
   actionButtons: document.querySelectorAll(".action-button"),
+  signalJsonInput: document.querySelector("#signalJsonInput"),
+  analyzeSignalButton: document.querySelector("#analyzeSignalButton"),
+  signalAnalysisStatus: document.querySelector("#signalAnalysisStatus"),
+  signalAnalysisResult: document.querySelector("#signalAnalysisResult"),
+  extensionStoreButton: document.querySelector("#extensionStoreButton"),
   resultsTableBody: document.querySelector("#resultsTableBody"),
   resultRowTemplate: document.querySelector("#resultRowTemplate"),
   historyList: document.querySelector("#historyList"),
 };
 
 bindEvents();
+ingestSignalFromUrl();
 render();
 
 function bindEvents() {
@@ -78,6 +87,13 @@ function bindEvents() {
       renderActionGuide(button.dataset.action);
     });
   });
+
+  elements.analyzeSignalButton.addEventListener("click", analyzePastedSignalJson);
+  elements.extensionStoreButton.addEventListener("click", () => {
+    if (EXTENSION_STORE_URL) {
+      window.open(EXTENSION_STORE_URL, "_blank", "noopener");
+    }
+  });
 }
 
 function render() {
@@ -86,6 +102,7 @@ function render() {
   renderSummaryBoard();
   renderPrescription();
   renderActionGuide();
+  renderSignalAnalysis();
   renderRows();
   renderHistory();
 }
@@ -96,6 +113,8 @@ function syncInputs() {
   elements.limitSelect.value = String(state.limit || 100);
   elements.softModeToggle.checked = Boolean(state.softMode);
   elements.statusText.textContent = buildStatusText();
+  elements.extensionStoreButton.disabled = !EXTENSION_STORE_URL;
+  elements.extensionStoreButton.textContent = EXTENSION_STORE_URL ? "Chrome 웹스토어에서 설치" : "출시 준비중";
 }
 
 function renderResultCard() {
@@ -176,6 +195,299 @@ function renderActionGuide(action = "title") {
     <span class="summary-label">다음 행동</span>
     <strong>${escapeHtml(guide.title)}</strong>
     <p>${escapeHtml(guide.body)}</p>
+  `;
+}
+
+function analyzePastedSignalJson() {
+  try {
+    const raw = elements.signalJsonInput.value.trim();
+    if (!raw) {
+      throw new Error("확장 프로그램 JSON을 붙여넣어주세요.");
+    }
+
+    const parsed = JSON.parse(raw);
+    const normalized = normalizeExtensionSignalPayload(parsed);
+    if (!normalized.productId) {
+      throw new Error("productId가 없어 기록할 수 없습니다.");
+    }
+
+    saveSignalRecord(parsed, normalized);
+
+    elements.signalAnalysisStatus.textContent = "판매신호를 기록했습니다.";
+    elements.signalJsonInput.value = "";
+    persistState();
+    renderSignalAnalysis();
+  } catch (error) {
+    elements.signalAnalysisStatus.textContent = error instanceof Error ? error.message : "JSON 분석에 실패했습니다.";
+  }
+}
+
+function ingestSignalFromUrl() {
+  const encoded = readSignalParam();
+  if (!encoded) {
+    logSignalDebug("signal 파라미터 없음");
+    return;
+  }
+
+  try {
+    logSignalDebug("signal 파라미터 수신 성공");
+    const payload = JSON.parse(decodeBase64Url(encoded));
+    logSignalDebug("디코딩 성공");
+    const normalized = normalizeExtensionSignalPayload(payload);
+    if (!normalized.productId) {
+      throw new Error("productId가 없어 자동 기록할 수 없습니다.");
+    }
+
+    saveSignalRecord(payload, normalized);
+    elements.signalAnalysisStatus.textContent = "확장 프로그램 분석 결과를 불러왔습니다.";
+    logSignalDebug("localStorage 저장 성공");
+    removeSignalParamFromUrl();
+  } catch (error) {
+    elements.signalAnalysisStatus.textContent = error instanceof Error ? error.message : "확장 프로그램 결과를 불러오지 못했습니다.";
+    logSignalDebug(`디코딩 실패 또는 localStorage 저장 실패: ${elements.signalAnalysisStatus.textContent}`);
+  }
+}
+
+function saveSignalRecord(payload, normalized) {
+  const recordedAt = payload.collectedAt || new Date().toISOString();
+  const recordDate = formatRecordDate(recordedAt);
+  const nextRecord = {
+    id: crypto.randomUUID(),
+    recordedAt,
+    recordDate,
+    source: payload.source || "chrome-extension",
+    currentUrl: payload.currentUrl || "",
+    storageKey: buildSignalStorageKey(normalized),
+    ...normalized,
+  };
+
+  state.signalRecords = [
+    nextRecord,
+    ...(state.signalRecords || []).filter((record) => !(record.productId === normalized.productId && formatRecordDate(record.recordedAt) === recordDate)),
+  ].slice(0, 200);
+  persistProductSignalTimeline(nextRecord);
+  persistState();
+}
+
+function persistProductSignalTimeline(record) {
+  const key = buildSignalStorageKey(record);
+  const existing = readProductSignalTimeline(key);
+  const records = [
+    {
+      date: record.recordDate,
+      saleCount: record.saleCount,
+      reviewCount: record.reviewCount,
+      interestCustomerCount: record.interestCustomerCount,
+      price: record.price,
+      originalPrice: record.originalPrice,
+      discountRate: record.discountRate,
+      collectedAt: record.recordedAt,
+    },
+    ...(existing.records || []).filter((item) => item.date !== record.recordDate),
+  ].sort((a, b) => new Date(a.collectedAt) - new Date(b.collectedAt));
+
+  localStorage.setItem(
+    key,
+    JSON.stringify({
+      productId: record.productId,
+      productTitle: record.productTitle,
+      storeName: record.storeName,
+      records,
+    })
+  );
+}
+
+function readProductSignalTimeline(key) {
+  try {
+    return JSON.parse(localStorage.getItem(key) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function renderSignalAnalysis() {
+  const groups = groupSignalRecords(state.signalRecords);
+
+  if (!groups.length) {
+    elements.signalAnalysisResult.innerHTML = `
+      <article class="signal-empty-card">
+        <strong>아직 분석 기록이 없습니다.</strong>
+        <span>확장 프로그램의 붙여넣기용 JSON을 넣으면 상품별 기록이 쌓입니다.</span>
+      </article>
+    `;
+    return;
+  }
+
+  elements.signalAnalysisResult.innerHTML = groups
+    .map((group) => {
+      const latest = group.records[group.records.length - 1];
+      const previous = group.records[group.records.length - 2] || null;
+      const delta = previous ? buildSignalRecordDelta(previous, latest) : null;
+      const threeDayDelta = buildPeriodDelta(group.records, latest, 3);
+      const sevenDayDelta = buildPeriodDelta(group.records, latest, 7);
+      const trend = buildTrendMessage(group.records, latest);
+
+      return `
+        <article class="signal-result-card">
+          <div class="signal-result-top">
+            <div>
+              <span class="summary-label">공개 페이지 감지 신호</span>
+              <strong>${escapeHtml(latest.productTitle || "상품명 없음")}</strong>
+              <p>${escapeHtml(latest.storeName || "스토어명 없음")} · productId ${escapeHtml(group.productId)}</p>
+            </div>
+            <span class="signal-confidence">${escapeHtml(latest.confidence || "unknown")}</span>
+          </div>
+          <div class="signal-metric-grid">
+            ${renderSignalMetric("판매신호", latest.saleCount)}
+            ${renderSignalMetric("리뷰 수", latest.reviewCount)}
+            ${renderSignalMetric("관심고객수", latest.interestCustomerCount)}
+            ${renderSignalMetric("현재가", latest.price, "원")}
+            ${renderSignalMetric("정가 후보", latest.originalPrice, "원")}
+            ${renderSignalMetric("할인율", latest.discountRate, "%")}
+            ${renderSignalMetric("3일 판매 변화", threeDayDelta?.saleCount)}
+            ${renderSignalMetric("7일 판매 변화", sevenDayDelta?.saleCount)}
+            ${renderSignalMetric("3일 리뷰 변화", threeDayDelta?.reviewCount)}
+            ${renderSignalMetric("7일 리뷰 변화", sevenDayDelta?.reviewCount)}
+          </div>
+          <div class="signal-delta-box">
+            <strong>${delta ? delta.summary : "첫 기록입니다."}</strong>
+            <p>${escapeHtml(trend)}</p>
+            <p>네이버 공식 판매량이 아니라 공개 페이지에서 감지한 판매신호입니다.</p>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function normalizeExtensionSignalPayload(payload) {
+  const normalized = payload.normalizedSignals || payload;
+  const price = normalizeNullableNumber(normalized.price ?? normalized.discountedSalePrice);
+  const originalPrice = normalizeNullableNumber(normalized.originalPrice);
+
+  return {
+    productId: String(normalized.productId || payload.productId || ""),
+    productTitle: normalized.productTitle || payload.productTitle || "",
+    storeName: normalized.storeName || payload.storeName || "",
+    saleCount: normalizeNumber(normalized.saleCount),
+    reviewCount: normalizeNumber(normalized.reviewCount),
+    interestCustomerCount: normalizeNumber(normalized.interestCustomerCount),
+    price,
+    originalPrice,
+    discountRate: normalizeNullableNumber(normalized.discountRate) ?? calculateDiscountRate(price, originalPrice),
+    confidence: normalized.confidence || payload.confidence || "unknown",
+  };
+}
+
+function readSignalParam() {
+  const queryValue = new URLSearchParams(window.location.search).get("signal");
+  if (queryValue) {
+    return queryValue;
+  }
+
+  const hash = window.location.hash.replace(/^#/, "");
+  return new URLSearchParams(hash).get("signal");
+}
+
+function removeSignalParamFromUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("signal");
+  if (url.hash.includes("signal=")) {
+    url.hash = "";
+  }
+  window.history.replaceState({}, document.title, url.toString());
+}
+
+function decodeBase64Url(value) {
+  const base64 = String(value).replaceAll("-", "+").replaceAll("_", "/");
+  const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+  const binary = atob(padded);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+function groupSignalRecords(records) {
+  const groups = new Map();
+
+  (records || []).forEach((record) => {
+    if (!record.productId) {
+      return;
+    }
+    if (!groups.has(record.productId)) {
+      groups.set(record.productId, []);
+    }
+    groups.get(record.productId).push(record);
+  });
+
+  return Array.from(groups.entries())
+    .map(([productId, productRecords]) => ({
+      productId,
+      records: productRecords.sort((a, b) => new Date(a.recordedAt) - new Date(b.recordedAt)),
+    }))
+    .sort((a, b) => new Date(b.records[b.records.length - 1].recordedAt) - new Date(a.records[a.records.length - 1].recordedAt));
+}
+
+function buildSignalRecordDelta(previous, latest) {
+  const saleDelta = latest.saleCount - previous.saleCount;
+  const reviewDelta = latest.reviewCount - previous.reviewCount;
+  const interestDelta = latest.interestCustomerCount - previous.interestCustomerCount;
+  return {
+    summary: `이전 기록 대비 판매 ${formatDelta(saleDelta)} · 리뷰 ${formatDelta(reviewDelta)} · 관심 ${formatDelta(interestDelta)}`,
+  };
+}
+
+function buildTrendMessage(records, latest) {
+  const latestDate = new Date(latest.recordedAt);
+  const hasThreeDayRecord = records.some((record) => dateDiffDays(new Date(record.recordedAt), latestDate) >= 3);
+  const hasSevenDayRecord = records.some((record) => dateDiffDays(new Date(record.recordedAt), latestDate) >= 7);
+
+  if (hasSevenDayRecord) {
+    return "7일 이상 간격 기록이 있어 7일 추세 계산이 가능합니다.";
+  }
+  if (hasThreeDayRecord) {
+    return "3일 이상 간격 기록이 있어 3일 추세 계산이 가능합니다.";
+  }
+  return "기록이 더 쌓이면 3일/7일 추세가 표시됩니다.";
+}
+
+function buildPeriodDelta(records, latest, days) {
+  const past = findClosestPastRecord(records, latest, days);
+  if (!past) {
+    return null;
+  }
+
+  return {
+    saleCount: latest.saleCount - past.saleCount,
+    reviewCount: latest.reviewCount - past.reviewCount,
+    interestCustomerCount: latest.interestCustomerCount - past.interestCustomerCount,
+  };
+}
+
+function findClosestPastRecord(records, latest, targetDays) {
+  const latestDate = new Date(latest.recordedAt);
+  return [...records]
+    .filter((record) => record !== latest)
+    .map((record) => ({
+      record,
+      days: dateDiffDays(new Date(record.recordedAt), latestDate),
+    }))
+    .filter((item) => item.days >= targetDays)
+    .sort((a, b) => a.days - b.days)[0]?.record || null;
+}
+
+function renderSignalMetric(label, value, suffix = "") {
+  const isDelta = label.includes("변화");
+  const display =
+    value === null || value === undefined
+      ? isDelta
+        ? "데이터 축적 중"
+        : "-"
+      : `${isDelta ? formatDelta(value) : formatNumber(value)}${suffix}`;
+  return `
+    <div>
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(display)}</strong>
+    </div>
   `;
 }
 
@@ -480,6 +792,24 @@ function loadState() {
       price: row.price || 0,
     }));
     parsed.history = parsed.history || [];
+    parsed.signalRecords = (parsed.signalRecords || []).map((record) => ({
+      id: record.id || crypto.randomUUID(),
+      recordedAt: record.recordedAt || new Date().toISOString(),
+      recordDate: record.recordDate || formatRecordDate(record.recordedAt || new Date().toISOString()),
+      source: record.source || "chrome-extension",
+      currentUrl: record.currentUrl || "",
+      storageKey: record.storageKey || buildSignalStorageKey(record),
+      productId: String(record.productId || ""),
+      productTitle: record.productTitle || "",
+      storeName: record.storeName || "",
+      saleCount: normalizeNumber(record.saleCount),
+      reviewCount: normalizeNumber(record.reviewCount),
+      interestCustomerCount: normalizeNumber(record.interestCustomerCount),
+      price: normalizeNullableNumber(record.price),
+      originalPrice: normalizeNullableNumber(record.originalPrice),
+      discountRate: normalizeNullableNumber(record.discountRate),
+      confidence: record.confidence || "unknown",
+    }));
     parsed.limit = parsed.limit || 100;
     parsed.keyword = parsed.keyword || "";
     parsed.store = parsed.store || "";
@@ -499,6 +829,54 @@ function normalizeValue(key, value) {
     return Number.parseInt(value, 10) || 0;
   }
   return value;
+}
+
+function normalizeNumber(value) {
+  const number = Number.parseInt(value, 10);
+  return Number.isNaN(number) ? 0 : number;
+}
+
+function normalizeNullableNumber(value) {
+  if (value === null || value === undefined || value === "") {
+    return null;
+  }
+  const number = Number.parseInt(value, 10);
+  return Number.isNaN(number) ? null : number;
+}
+
+function buildSignalStorageKey(record) {
+  return `masterhong:signals:${record.storeName || "unknown"}:${record.productId || "unknown"}`;
+}
+
+function formatRecordDate(value) {
+  return new Date(value).toISOString().slice(0, 10);
+}
+
+function logSignalDebug(message) {
+  console.log(`[masterhong signal] ${message}`);
+  if (elements.signalAnalysisStatus && message !== "signal 파라미터 없음") {
+    elements.signalAnalysisStatus.textContent = message;
+  }
+}
+
+function calculateDiscountRate(price, originalPrice) {
+  if (!price || !originalPrice || originalPrice <= price) {
+    return 0;
+  }
+  return Math.round(((originalPrice - price) / originalPrice) * 100);
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("ko-KR").format(value || 0);
+}
+
+function formatDelta(value) {
+  const sign = value > 0 ? "+" : "";
+  return `${sign}${formatNumber(value)}`;
+}
+
+function dateDiffDays(startDate, endDate) {
+  return Math.floor((endDate - startDate) / 86400000);
 }
 
 function normalizeText(value) {

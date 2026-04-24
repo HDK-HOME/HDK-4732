@@ -6,8 +6,13 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env server.js",
     "dev": "node --env-file-if-exists=.env server.js",
+    "signal:playwright": "node product-signal-playwright.mjs",
+    "package:extension": "mkdir -p dist && node -e \"try{require('fs').unlinkSync('dist/master-hong-extension.zip')}catch{}\" && cd extension && zip -r ../dist/master-hong-extension.zip . -x '*.DS_Store'",
     "cf:dev": "npx wrangler dev --port 8000",
     "cf:deploy": "npx wrangler deploy",
     "cf:dry-run": "npx wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "playwright": "^1.52.0"
   }
 }

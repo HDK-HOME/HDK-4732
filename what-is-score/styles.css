@@ -43,6 +43,15 @@ body {
   text-align: center;
 }
 
+.brand-logo {
+  display: block;
+  width: min(260px, 62vw);
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+
 .eyebrow {
   margin: 0 0 12px;
   color: #86868b;
@@ -349,6 +358,177 @@ button:focus {
   margin-bottom: 14px;
 }
 
+.signal-input-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.signal-json-field textarea {
+  width: 100%;
+  min-height: 210px;
+  resize: vertical;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font: inherit;
+  line-height: 1.45;
+}
+
+.signal-help-card,
+.signal-empty-card,
+.signal-result-card,
+.extension-install-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.signal-help-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signal-main-guide {
+  margin-bottom: 14px;
+}
+
+.developer-signal-tools {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.developer-signal-tools summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.developer-signal-tools .signal-input-grid {
+  margin-top: 14px;
+}
+
+.signal-help-card p,
+.signal-empty-card span,
+.signal-result-top p,
+.signal-delta-box p,
+.extension-install-card p {
+  color: var(--muted);
+}
+
+.extension-install-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.extension-install-card strong {
+  display: block;
+  min-width: 180px;
+}
+
+.extension-install-card p {
+  flex: 1 1 320px;
+}
+
+.privacy-content {
+  display: grid;
+  gap: 14px;
+  line-height: 1.7;
+}
+
+.privacy-content h2 {
+  margin: 12px 0 0;
+}
+
+.privacy-content p {
+  color: var(--muted);
+}
+
+.inline-status {
+  margin-left: 0;
+}
+
+.signal-analysis-result {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.signal-result-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.signal-result-top strong,
+.signal-empty-card strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.signal-confidence {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(41, 151, 255, 0.12);
+  color: #9fd0ff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.signal-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.signal-metric-grid div {
+  min-height: 78px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.signal-metric-grid span {
+  display: block;
+  color: #86868b;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.signal-metric-grid strong {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.signal-delta-box {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.signal-delta-box strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
 .detail-panel table {
   min-width: 760px;
 }
@@ -428,6 +608,8 @@ th {
 
 @media (max-width: 980px) {
   .search-form,
+  .signal-input-grid,
+  .signal-metric-grid,
   .meta-grid,
   .spotlight-grid {
     grid-template-columns: 1fr;
