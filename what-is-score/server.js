@@ -25,6 +25,15 @@ const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url, `http://${request.headers.host}`);
 
   try {
+    if (requestUrl.pathname === "/api/env-check") {
+      sendJson(response, 200, {
+        ok: true,
+        hasClientId: Boolean(process.env.NAVER_CLIENT_ID),
+        hasClientSecret: Boolean(process.env.NAVER_CLIENT_SECRET),
+      });
+      return;
+    }
+
     if (requestUrl.pathname === "/api/ranking") {
       await handleRankingApi(requestUrl, response);
       return;

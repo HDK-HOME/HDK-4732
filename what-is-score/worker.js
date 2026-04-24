@@ -4,6 +4,14 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (url.pathname === "/api/env-check") {
+      return json({
+        ok: true,
+        hasClientId: Boolean(env?.NAVER_CLIENT_ID),
+        hasClientSecret: Boolean(env?.NAVER_CLIENT_SECRET),
+      });
+    }
+
     if (url.pathname === "/api/ranking") {
       return handleRankingApi(url, env);
     }
