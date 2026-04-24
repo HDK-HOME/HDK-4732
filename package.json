@@ -1,8 +1,12 @@
 {
   "scripts": {
     "start": "npm --prefix what-is-eat start",
-    "preview": "npm start",
+    "preview": "wrangler dev",
     "start:score": "npm --prefix what-is-score start",
-    "preview:score": "npm run start:score"
+    "preview:score": "npm run start:score",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.84.1"
   }
 }
