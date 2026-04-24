@@ -19,9 +19,9 @@ NAVER_CLIENT_ID=YOUR_NAVER_CLIENT_ID
 NAVER_CLIENT_SECRET=YOUR_NAVER_CLIENT_SECRET
 ```
 
-## Cloudflare Pages Functions
+## Cloudflare Workers
 
-이 프로젝트는 `functions/api/ranking.js`를 포함하므로 Cloudflare Pages Functions로 배포할 수 있습니다.
+이 프로젝트는 `wrangler.jsonc`와 `worker.js`를 포함하므로 Cloudflare Workers로 배포할 수 있습니다.
 
 로컬에서 Cloudflare 방식으로 확인하려면:
 
@@ -48,6 +48,7 @@ Cloudflare 대시보드에는 아래 환경변수를 넣으면 됩니다.
 - 이 저장소에서는 `what-is-score/` 폴더가 앱 루트입니다.
 - 상위 저장소 루트의 `package.json`은 편의상 실행용 래퍼만 제공합니다.
 - 실제 앱 기준 파일은 `what-is-score/package.json`입니다.
+- Cloudflare 배포 기준 파일은 `what-is-score/wrangler.jsonc`입니다.
 
 ## 주의
 

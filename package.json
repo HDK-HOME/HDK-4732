@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "start": "python3 -m http.server 8000 --directory what-is-eat",
-    "preview": "npm start"
+    "start": "npm --prefix what-is-eat start",
+    "preview": "npm start",
+    "start:score": "npm --prefix what-is-score start",
+    "preview:score": "npm run start:score"
   }
 }

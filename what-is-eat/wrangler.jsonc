@@ -1,0 +1,10 @@
+{
+  "name": "what-is-eat",
+  "main": "worker.js",
+  "compatibility_date": "2026-04-24",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  }
+}

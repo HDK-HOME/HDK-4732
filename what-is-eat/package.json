@@ -1,0 +1,13 @@
+{
+  "name": "what-is-eat",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Dinner recommendation single-page app",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "cf:dev": "npx wrangler dev --port 8000",
+    "cf:deploy": "npx wrangler deploy",
+    "cf:dry-run": "npx wrangler deploy --dry-run"
+  }
+}

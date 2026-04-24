@@ -18,25 +18,32 @@ npm start
 
 ## Cloudflare
 
-이제 `functions/api/ranking.js`가 포함되어 있어 Cloudflare Pages Functions로 배포 가능합니다.
+이 프로젝트는 `wrangler.jsonc` 기반 Worker 배포 구조입니다.
 
-### Cloudflare Pages settings
+### Required files
 
-- Framework preset: `None`
-- Build command: 비워두기 또는 필요 시 `npm install`
-- Build output directory: `/`
-- Root directory: `what-is-score`
+- `wrangler.jsonc`
+- `worker.js`
+- 정적 자산: `index.html`, `script.js`, `styles.css`
+
+### Cloudflare settings
+
+- Git repository: `HDK-4732`
+- Deploy command: `npx wrangler deploy -c what-is-score/wrangler.jsonc`
+- Version command: `npx wrangler versions upload -c what-is-score/wrangler.jsonc`
+- Root directory: `/` 그대로 둬도 됨
 
 ### Environment variables
 
 - `NAVER_CLIENT_ID`
 - `NAVER_CLIENT_SECRET`
 
-### Local Cloudflare-style dev
+### Local check
 
 ```bash
 cd what-is-score
 cp .dev.vars.example .dev.vars
+npm run cf:dry-run
 npm run cf:dev
 ```
 
