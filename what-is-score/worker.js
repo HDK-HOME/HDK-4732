@@ -9,6 +9,7 @@ export default {
         ok: true,
         hasClientId: Boolean(env?.NAVER_CLIENT_ID),
         hasClientSecret: Boolean(env?.NAVER_CLIENT_SECRET),
+        envKeys: Object.keys(env || {}).sort(),
       });
     }
 
