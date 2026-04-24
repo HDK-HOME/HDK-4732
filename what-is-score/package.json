@@ -1,0 +1,12 @@
+{
+  "name": "what-is-score",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Naver shopping ranking checker for Smart Store sellers",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env server.js",
+    "cf:dev": "npx wrangler pages dev . --compatibility-date=2026-04-24 --port 8000",
+    "cf:deploy": "npx wrangler pages deploy ."
+  }
+}

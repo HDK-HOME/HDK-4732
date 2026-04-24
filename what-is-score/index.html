@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What Is Score</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">What Is Score</p>
+        <h1>돈냄새 순위체크.</h1>
+        <p class="hero-copy">
+          사장님 상품,
+          <br />
+          지금 네이버에서 돈 벌 자리인가요?
+        </p>
+        <p class="hero-subcopy">
+          키워드와 스토어명 하나만 넣으면
+          <br />
+          순위, 칭호, 전투력, 생존 판정을 바로 보여줍니다.
+        </p>
+      </header>
+
+      <main class="layout">
+        <section class="panel search-panel">
+          <div class="panel-top">
+            <div>
+              <h2>순위 확인</h2>
+              <p>한 번에 한 스토어만 확인합니다. 더 단순하고 더 빠르게 봅니다.</p>
+            </div>
+            <label class="toggle-card" for="softModeToggle">
+              <span>자존심 보호 모드</span>
+              <input id="softModeToggle" type="checkbox" />
+            </label>
+          </div>
+
+          <form id="rankingForm" class="search-form">
+            <label>
+              <span>키워드</span>
+              <input id="keywordInput" type="text" placeholder="예: 오방난로" />
+            </label>
+            <label>
+              <span>스토어명</span>
+              <input id="storeInput" type="text" placeholder="예: 한일공식스토어" />
+            </label>
+            <label>
+              <span>조회 범위</span>
+              <select id="limitSelect">
+                <option value="100">100위</option>
+                <option value="200">200위</option>
+                <option value="300">300위</option>
+                <option value="500">500위</option>
+              </select>
+            </label>
+            <button class="button primary submit-button" type="submit">순위 확인</button>
+          </form>
+
+          <div class="utility-row">
+            <button id="loadSampleButton" class="button secondary" type="button">샘플</button>
+            <button id="saveButton" class="button secondary" type="button">저장</button>
+            <p id="statusText" class="status-text">대기중</p>
+          </div>
+        </section>
+
+        <section class="panel spotlight-panel">
+          <div id="resultCard" class="result-card empty">
+            <p class="result-label">아직 조회 전</p>
+            <p class="result-rank">-</p>
+            <p class="result-message">키워드와 스토어명을 넣고 순위를 확인하세요.</p>
+          </div>
+
+          <div class="spotlight-grid">
+            <div id="summaryBoard" class="summary-card"></div>
+            <div id="prescriptionCard" class="quote-card"></div>
+          </div>
+        </section>
+
+        <section class="panel action-panel">
+          <div class="panel-top">
+            <div>
+              <h2>다음 행동</h2>
+              <p>바로 수정할 수 있는 항목만 보여줍니다.</p>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="button primary action-button" type="button" data-action="title">상품명 점검하기</button>
+            <button class="button secondary action-button" type="button" data-action="thumb">썸네일 점검하기</button>
+            <button class="button secondary action-button" type="button" data-action="longtail">롱테일 키워드 찾기</button>
+          </div>
+          <div id="actionGuide" class="guide-card"></div>
+        </section>
+
+        <section class="panel detail-panel">
+          <div class="panel-top">
+            <div>
+              <h2>상위 검색 결과</h2>
+              <p>실제로 받아온 검색 결과 상위 데이터입니다.</p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>순위</th>
+                  <th>스토어명</th>
+                  <th>상품명</th>
+                  <th>최저가</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-top">
+            <div>
+              <h2>조회 히스토리</h2>
+              <p>최근 확인한 기록입니다.</p>
+            </div>
+          </div>
+          <div id="historyList" class="stack-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="resultRowTemplate">
+      <tr>
+        <td><input data-field="rank" type="number" min="1" step="1" /></td>
+        <td><input data-field="storeName" type="text" placeholder="스토어명" /></td>
+        <td><input data-field="productName" type="text" placeholder="상품명" /></td>
+        <td><input data-field="price" type="number" min="0" step="1" /></td>
+      </tr>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
