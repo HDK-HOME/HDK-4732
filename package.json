@@ -1,6 +1,10 @@
 {
   "scripts": {
     "start": "python3 -m http.server 8000 --directory what-is-eat",
-    "preview": "npm start"
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.84.1"
   }
 }
