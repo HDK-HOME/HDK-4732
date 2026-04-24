@@ -498,7 +498,8 @@ button:focus {
   gap: 10px;
 }
 
-.signal-metric-grid div {
+.signal-metric-grid div,
+.signal-insight-grid div {
   min-height: 78px;
   padding: 14px;
   border-radius: 16px;
@@ -506,16 +507,32 @@ button:focus {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.signal-metric-grid span {
+.signal-metric-grid span,
+.signal-insight-grid span {
   display: block;
   color: #86868b;
   font-size: 12px;
   margin-bottom: 8px;
 }
 
-.signal-metric-grid strong {
+.signal-metric-grid strong,
+.signal-insight-grid strong {
   font-size: 20px;
   line-height: 1.2;
+}
+
+.signal-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.signal-insight-grid p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+  margin-top: 8px;
 }
 
 .signal-delta-box {
@@ -610,6 +627,7 @@ th {
   .search-form,
   .signal-input-grid,
   .signal-metric-grid,
+  .signal-insight-grid,
   .meta-grid,
   .spotlight-grid {
     grid-template-columns: 1fr;

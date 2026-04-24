@@ -325,6 +325,7 @@ function renderSignalAnalysis() {
       const delta = previous ? buildSignalRecordDelta(previous, latest) : null;
       const threeDayDelta = buildPeriodDelta(group.records, latest, 3);
       const sevenDayDelta = buildPeriodDelta(group.records, latest, 7);
+      const currentAnalysis = buildCurrentSignalAnalysis(latest);
       const trend = buildTrendMessage(group.records, latest);
 
       return `
@@ -344,13 +345,21 @@ function renderSignalAnalysis() {
             ${renderSignalMetric("현재가", latest.price, "원")}
             ${renderSignalMetric("정가 후보", latest.originalPrice, "원")}
             ${renderSignalMetric("할인율", latest.discountRate, "%")}
-            ${renderSignalMetric("3일 판매 변화", threeDayDelta?.saleCount)}
-            ${renderSignalMetric("7일 판매 변화", sevenDayDelta?.saleCount)}
-            ${renderSignalMetric("3일 리뷰 변화", threeDayDelta?.reviewCount)}
-            ${renderSignalMetric("7일 리뷰 변화", sevenDayDelta?.reviewCount)}
+            ${renderSignalMetric("3일 판매 변화", threeDayDelta?.saleCount, "", "오늘부터 추적 시작")}
+            ${renderSignalMetric("7일 판매 변화", sevenDayDelta?.saleCount, "", "기록 2회 이상부터 표시")}
+            ${renderSignalMetric("3일 리뷰 변화", threeDayDelta?.reviewCount, "", "오늘부터 추적 시작")}
+            ${renderSignalMetric("7일 리뷰 변화", sevenDayDelta?.reviewCount, "", "기록 2회 이상부터 표시")}
+          </div>
+          <div class="signal-insight-grid">
+            ${renderInsightCard("판매신호 강도", currentAnalysis.salesStrength.grade, currentAnalysis.salesStrength.detail)}
+            ${renderInsightCard("리뷰 축적률", currentAnalysis.reviewRate.grade, currentAnalysis.reviewRate.detail)}
+            ${renderInsightCard("관심 대비 판매 전환 신호", currentAnalysis.saleToInterest.grade, currentAnalysis.saleToInterest.detail)}
+            ${renderInsightCard("가격 할인 매력도", currentAnalysis.discountAppeal.grade, currentAnalysis.discountAppeal.detail)}
+            ${renderInsightCard("추적 시작 상태", currentAnalysis.trackingStatus.grade, currentAnalysis.trackingStatus.detail)}
           </div>
           <div class="signal-delta-box">
             <strong>${delta ? delta.summary : "첫 기록입니다."}</strong>
+            <p>${escapeHtml(currentAnalysis.summary)}</p>
             <p>${escapeHtml(trend)}</p>
             <p>네이버 공식 판매량이 아니라 공개 페이지에서 감지한 판매신호입니다.</p>
           </div>
@@ -475,12 +484,121 @@ function findClosestPastRecord(records, latest, targetDays) {
     .sort((a, b) => a.days - b.days)[0]?.record || null;
 }
 
-function renderSignalMetric(label, value, suffix = "") {
+function buildCurrentSignalAnalysis(record) {
+  const saleCount = normalizeNumber(record.saleCount);
+  const reviewCount = normalizeNumber(record.reviewCount);
+  const interestCustomerCount = normalizeNumber(record.interestCustomerCount);
+  const price = normalizeNullableNumber(record.price);
+  const originalPrice = normalizeNullableNumber(record.originalPrice);
+  const discountRate = normalizeNullableNumber(record.discountRate) ?? calculateDiscountRate(price, originalPrice);
+  const reviewToSaleRate = saleCount > 0 ? (reviewCount / saleCount) * 100 : 0;
+  const saleToInterestRate = interestCustomerCount > 0 ? (saleCount / interestCustomerCount) * 100 : 0;
+  const discountAmount = price && originalPrice ? Math.max(0, originalPrice - price) : 0;
+
+  const salesStrength = {
+    grade: gradeSalesStrength(saleCount),
+    detail: `${formatNumber(saleCount)}건 판매신호`,
+  };
+  const reviewRate = {
+    grade: gradeReviewRate(reviewToSaleRate),
+    detail: `판매 대비 리뷰 ${formatPercent(reviewToSaleRate)}`,
+  };
+  const saleToInterest = {
+    grade: gradeSaleToInterestRate(saleToInterestRate),
+    detail: `관심 대비 판매 ${formatPercent(saleToInterestRate)}`,
+  };
+  const discountAppeal = {
+    grade: gradeDiscountAppeal(discountRate),
+    detail: discountAmount ? `${formatNumber(discountAmount)}원 할인 · ${formatNumber(discountRate)}%` : "할인 신호 낮음",
+  };
+  const trackingStatus = {
+    grade: "추적 시작",
+    detail: "오늘 기록을 기준점으로 저장했습니다.",
+  };
+
+  return {
+    reviewToSaleRate,
+    saleToInterestRate,
+    discountAmount,
+    discountRate,
+    salesStrength,
+    reviewRate,
+    saleToInterest,
+    discountAppeal,
+    trackingStatus,
+    summary: buildCurrentSignalSummary({ salesStrength, reviewRate, saleToInterest, discountAppeal }),
+  };
+}
+
+function gradeSalesStrength(saleCount) {
+  if (saleCount >= 1000) {
+    return "강함";
+  }
+  if (saleCount >= 300) {
+    return "보통 이상";
+  }
+  if (saleCount >= 100) {
+    return "보통";
+  }
+  return "약함";
+}
+
+function gradeReviewRate(rate) {
+  if (rate >= 20) {
+    return "높음";
+  }
+  if (rate >= 10) {
+    return "보통";
+  }
+  return "낮음";
+}
+
+function gradeSaleToInterestRate(rate) {
+  if (rate >= 5) {
+    return "좋음";
+  }
+  if (rate >= 2) {
+    return "보통";
+  }
+  return "낮음";
+}
+
+function gradeDiscountAppeal(discountRate) {
+  if (discountRate >= 20) {
+    return "강함";
+  }
+  if (discountRate >= 10) {
+    return "있음";
+  }
+  return "낮음";
+}
+
+function buildCurrentSignalSummary(analysis) {
+  if (analysis.salesStrength.grade === "강함" && ["높음", "보통"].includes(analysis.reviewRate.grade)) {
+    return "이 상품은 현재 판매수와 리뷰 축적률 기준으로 이미 검증된 상품에 가깝습니다. 오늘부터 추적하면 3일/7일 판매 흐름을 확인할 수 있습니다.";
+  }
+  if (["강함", "보통 이상"].includes(analysis.salesStrength.grade)) {
+    return "이 상품은 판매신호가 충분히 쌓인 상태입니다. 리뷰와 관심고객수 변화를 같이 추적하면 흐름을 더 선명하게 볼 수 있습니다.";
+  }
+  return "이 상품은 오늘 기록을 기준점으로 추적을 시작했습니다. 기록이 쌓이면 3일/7일 판매 흐름을 확인할 수 있습니다.";
+}
+
+function renderInsightCard(label, grade, detail) {
+  return `
+    <div>
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(grade)}</strong>
+      <p>${escapeHtml(detail)}</p>
+    </div>
+  `;
+}
+
+function renderSignalMetric(label, value, suffix = "", fallback = "-") {
   const isDelta = label.includes("변화");
   const display =
     value === null || value === undefined
       ? isDelta
-        ? "데이터 축적 중"
+        ? fallback
         : "-"
       : `${isDelta ? formatDelta(value) : formatNumber(value)}${suffix}`;
   return `
@@ -873,6 +991,10 @@ function formatNumber(value) {
 function formatDelta(value) {
   const sign = value > 0 ? "+" : "";
   return `${sign}${formatNumber(value)}`;
+}
+
+function formatPercent(value) {
+  return `${Number(value || 0).toFixed(1)}%`;
 }
 
 function dateDiffDays(startDate, endDate) {
