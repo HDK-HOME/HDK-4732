@@ -1,5 +1,5 @@
 let latestResult = null;
-const MASTERHONG_WEBAPP_URL = "https://hdk-001.benywade31.workers.dev/";
+const MASTERHONG_WEBAPP_URL = "https://what-is-score.benywade31.workers.dev/";
 
 const elements = {
   analyzeProductButton: document.querySelector("#analyzeProductButton"),
