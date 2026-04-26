@@ -83,7 +83,7 @@ function serveStatic(pathname, response) {
   fs.readFile(filePath, (error, data) => {
     if (error) {
       if (error.code === "ENOENT") {
-        sendText(response, 404, "Not found");
+        serve404(response);
         return;
       }
       sendText(response, 500, "Server error");
@@ -94,6 +94,7 @@ function serveStatic(pathname, response) {
     response.writeHead(200, {
       "Content-Type": MIME_TYPES[ext] || "application/octet-stream",
       "Cache-Control": "no-store",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
     });
     response.end(data);
   });
@@ -103,6 +104,7 @@ function sendJson(response, statusCode, payload) {
   response.writeHead(statusCode, {
     "Content-Type": MIME_TYPES[".json"],
     "Cache-Control": "no-store",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
   });
   response.end(JSON.stringify(payload));
 }
@@ -111,8 +113,24 @@ function sendText(response, statusCode, text) {
   response.writeHead(statusCode, {
     "Content-Type": "text/plain; charset=utf-8",
     "Cache-Control": "no-store",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
   });
   response.end(text);
+}
+
+function serve404(response) {
+  fs.readFile(path.join(ROOT, "404.html"), (error, data) => {
+    if (error) {
+      sendText(response, 404, "Not found");
+      return;
+    }
+    response.writeHead(404, {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    });
+    response.end(data);
+  });
 }
 
 async function loadRankingCore() {

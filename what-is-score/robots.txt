@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://what-is-score.benywade31.workers.dev/sitemap.xml

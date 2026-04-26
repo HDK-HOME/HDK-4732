@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">마스터홍 네이버 스마트스토어 순위 판매신호 분석기</title>
+  <desc id="desc">마스터홍 공유 이미지</desc>
+  <rect width="1200" height="630" fill="#050505"/>
+  <rect x="72" y="72" width="1056" height="486" rx="36" fill="#111113" stroke="#2b2b31" stroke-width="2"/>
+  <circle cx="160" cy="158" r="42" fill="#2997ff"/>
+  <path d="M143 160h34M160 143v34" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+  <text x="224" y="165" fill="#86868b" font-family="Arial, sans-serif" font-size="32" font-weight="700">MASTER HONG</text>
+  <text x="120" y="282" fill="#f5f5f7" font-family="Arial, sans-serif" font-size="68" font-weight="800">마스터홍</text>
+  <text x="120" y="366" fill="#f5f5f7" font-family="Arial, sans-serif" font-size="54" font-weight="700">네이버 스마트스토어 순위·판매신호 분석기</text>
+  <text x="120" y="452" fill="#a1a1a6" font-family="Arial, sans-serif" font-size="34" font-weight="500">순위, 가격, 리뷰, 관심수, 판매신호를 한 번에 점검</text>
+  <rect x="888" y="140" width="170" height="70" rx="35" fill="#2997ff"/>
+  <text x="925" y="187" fill="#fff" font-family="Arial, sans-serif" font-size="26" font-weight="800">SEO</text>
+</svg>

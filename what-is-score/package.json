@@ -10,6 +10,7 @@
     "package:extension": "mkdir -p dist && node -e \"try{require('fs').unlinkSync('dist/master-hong-extension.zip')}catch{}\" && cd extension && zip -r ../dist/master-hong-extension.zip . -x '*.DS_Store'",
     "cf:dev": "npx wrangler dev --port 8000",
     "cf:deploy": "npx wrangler deploy",
+    "deploy": "npm run cf:deploy",
     "cf:dry-run": "npx wrangler deploy --dry-run"
   },
   "devDependencies": {

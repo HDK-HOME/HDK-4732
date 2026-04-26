@@ -3,15 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>마스터홍 | 판매신호 분석기</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <title>마스터홍 | 네이버 스마트스토어 순위·판매신호 분석기</title>
+    <meta
+      name="description"
+      content="마스터홍은 네이버 스마트스토어 상품의 검색 순위, 스토어명, 가격, 리뷰, 관심수, 판매신호를 한 번에 점검해 온라인 셀러가 다음 행동을 빠르게 판단하도록 돕는 분석 도구입니다."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#050505" />
+    <link rel="canonical" href="https://what-is-score.benywade31.workers.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="마스터홍 | 네이버 스마트스토어 순위·판매신호 분석기" />
+    <meta
+      property="og:description"
+      content="네이버 스마트스토어 상품의 검색 순위, 가격, 리뷰, 관심수, 판매신호를 함께 확인하고 다음 행동을 빠르게 판단하세요."
+    />
+    <meta property="og:url" content="https://what-is-score.benywade31.workers.dev/" />
+    <meta property="og:image" content="https://what-is-score.benywade31.workers.dev/assets/brand/masterhong-og.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="마스터홍 | 네이버 스마트스토어 순위·판매신호 분석기" />
+    <meta
+      name="twitter:description"
+      content="네이버 스마트스토어 상품의 검색 순위, 가격, 리뷰, 관심수, 판매신호를 함께 확인하고 다음 행동을 빠르게 판단하세요."
+    />
+    <meta name="twitter:image" content="https://what-is-score.benywade31.workers.dev/assets/brand/masterhong-og.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./extension/icons/icon128.png" />
+    <style>
+      :root {
+        color-scheme: dark;
+        background: #050505;
+      }
+
+      body {
+        margin: 0;
+        background: #050505;
+        color: #f5f5f7;
+      }
+    </style>
+    <link rel="preload" href="./styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="./styles.css" /></noscript>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "마스터홍",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "마스터홍은 네이버 스마트스토어 상품의 검색 순위, 스토어명, 가격, 리뷰, 관심수, 판매신호를 한 번에 점검해 온라인 셀러가 다음 행동을 빠르게 판단하도록 돕는 분석 도구입니다.",
+        "url": "https://what-is-score.benywade31.workers.dev/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "KRW"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "마스터홍"
+        },
+        "brand": {
+          "@type": "Brand",
+          "name": "마스터홍"
+        }
+      }
+    </script>
   </head>
   <body>
     <div class="app-shell">
       <header class="hero">
-        <img class="brand-logo" src="./assets/brand/masterhong-wordmark-main.svg" alt="마스터홍 판매신호 분석기" />
+        <img class="brand-logo" src="./assets/brand/masterhong-wordmark-main.svg" alt="마스터홍 네이버 스마트스토어 판매신호 분석기 로고" />
         <p class="eyebrow">Master Hong</p>
-        <h1>마스터홍.</h1>
+        <h1>마스터홍, 네이버 스마트스토어 판매신호 분석기</h1>
         <p class="hero-copy">
           사장님 상품,
           <br />
@@ -20,16 +81,22 @@
         <p class="hero-subcopy">
           키워드와 스토어명 하나만 넣으면
           <br />
-          순위, 칭호, 전투력, 생존 판정을 바로 보여줍니다.
+          네이버 순위, 가격, 리뷰, 관심수, 판매신호를 바로 보여줍니다.
         </p>
+        <nav class="guide-link-row" aria-label="서비스 안내">
+          <a href="./methodology.html">분석 방법론</a>
+          <a href="./privacy.html">개인정보처리방침</a>
+          <a href="./terms.html">이용약관</a>
+          <a href="./contact.html">문의</a>
+        </nav>
       </header>
 
       <main class="layout">
         <section class="panel search-panel">
           <div class="panel-top">
             <div>
-              <h2>순위 확인</h2>
-              <p>한 번에 한 스토어만 확인합니다. 더 단순하고 더 빠르게 봅니다.</p>
+              <h2>네이버 순위 확인</h2>
+              <p>네이버 스마트스토어 상품이 목표 키워드에서 어디에 노출되는지 한 번에 한 스토어씩 확인합니다.</p>
             </div>
             <label class="toggle-card" for="softModeToggle">
               <span>자존심 보호 모드</span>
@@ -81,8 +148,8 @@
         <section class="panel action-panel">
           <div class="panel-top">
             <div>
-              <h2>다음 행동</h2>
-              <p>바로 수정할 수 있는 항목만 보여줍니다.</p>
+              <h2>다음 행동 추천</h2>
+              <p>상품명, 썸네일, 가격, 리뷰처럼 바로 수정할 수 있는 항목을 먼저 보여줍니다.</p>
             </div>
           </div>
           <div class="action-buttons">
@@ -96,8 +163,8 @@
         <section class="panel signal-analysis-panel">
           <div class="panel-top">
             <div>
-              <h2>판매신호 분석기</h2>
-              <p>마스터홍 확장 프로그램에서 상품 분석하기를 누르면 자동으로 결과가 표시됩니다.</p>
+              <h2>스마트스토어 판매신호 분석</h2>
+              <p>마스터홍 확장 프로그램에서 상품 분석하기를 누르면 상품 페이지의 공개 신호가 자동으로 표시됩니다.</p>
             </div>
           </div>
 
@@ -143,8 +210,8 @@
         <section class="panel detail-panel">
           <div class="panel-top">
             <div>
-              <h2>상위 검색 결과</h2>
-              <p>실제로 받아온 검색 결과 상위 데이터입니다.</p>
+              <h2>상품 경쟁력 진단</h2>
+              <p>실제로 받아온 상위 검색 결과와 내 상품의 가격, 리뷰, 관심수 신호를 비교합니다.</p>
             </div>
           </div>
 
@@ -172,7 +239,56 @@
           </div>
           <div id="historyList" class="stack-list"></div>
         </section>
+
+        <section class="panel methodology-panel">
+          <div class="panel-top">
+            <div>
+              <h2>분석 방법론</h2>
+              <p>마스터홍은 네이버 스마트스토어를 처음 운영하거나 상품 개선 우선순위가 필요한 온라인 셀러를 위한 분석 도구입니다.</p>
+            </div>
+          </div>
+          <div class="copy-stack">
+            <p>네이버 공식 검색 API 기반 순위 확인과 상품 페이지에서 확인 가능한 판매신호를 분리해서 보여주며, 판매량은 공식 확정 데이터가 아니라 공개 페이지에서 확인 가능한 신호 기반 참고 지표입니다.</p>
+            <p>사용자는 순위, 가격, 리뷰, 관심수, 판매신호를 함께 보고 상품의 현재 위치를 판단할 수 있습니다.</p>
+            <p>결과가 낮게 나오면 상품명, 썸네일, 가격 비교, 리뷰 신뢰도처럼 구매 전환에 가까운 항목부터 점검하는 방식으로 다음 행동을 정합니다.</p>
+            <p><a class="page-link" href="./methodology.html">분석 기준 자세히 보기</a></p>
+          </div>
+        </section>
+
+        <section class="panel example-panel">
+          <div class="panel-top">
+            <div>
+              <h2>실제 예시 분석</h2>
+              <p>예시 데이터로 마스터홍이 어떤 판단 흐름을 제공하는지 확인할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="example-analysis">
+            <div>
+              <span>키워드</span>
+              <strong>전기난로</strong>
+            </div>
+            <div>
+              <span>스토어명</span>
+              <strong>도노몰</strong>
+            </div>
+            <div>
+              <span>분석 결과</span>
+              <p>검색 노출 확인, 리뷰/관심수/가격 신호 확인</p>
+            </div>
+            <div>
+              <span>다음 행동</span>
+              <p>썸네일, 상품명, 가격 비교, 리뷰 신뢰도 점검</p>
+            </div>
+          </div>
+        </section>
       </main>
+
+      <footer class="site-footer">
+        <a href="./privacy.html">개인정보처리방침</a>
+        <a href="./terms.html">이용약관</a>
+        <a href="./contact.html">문의</a>
+        <a href="./methodology.html">분석 방법론</a>
+      </footer>
     </div>
 
     <template id="resultRowTemplate">
@@ -184,6 +300,6 @@
       </tr>
     </template>
 
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
   </body>
 </html>

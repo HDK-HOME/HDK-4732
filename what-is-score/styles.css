@@ -89,6 +89,29 @@ h1 {
   line-height: 1.5;
 }
 
+.guide-link-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.guide-link-row a {
+  padding: 9px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+  color: #d2d2d7;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.guide-link-row a:hover {
+  color: #ffffff;
+}
+
 .layout {
   display: grid;
   gap: 18px;
@@ -455,6 +478,72 @@ button:focus {
   color: var(--muted);
 }
 
+.copy-stack {
+  display: grid;
+  gap: 10px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.example-analysis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.example-analysis div {
+  min-height: 118px;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.example-analysis span {
+  display: block;
+  color: #86868b;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.example-analysis strong {
+  display: block;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.example-analysis p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.site-footer {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 28px 0 0;
+}
+
+.site-footer a,
+.page-link {
+  color: #d2d2d7;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.site-footer a:hover,
+.page-link:hover {
+  color: #ffffff;
+}
+
+.contact-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.035);
+}
+
 .inline-status {
   margin-left: 0;
 }
@@ -628,6 +717,7 @@ th {
   .signal-input-grid,
   .signal-metric-grid,
   .signal-insight-grid,
+  .example-analysis,
   .meta-grid,
   .spotlight-grid {
     grid-template-columns: 1fr;
