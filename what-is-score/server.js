@@ -44,7 +44,7 @@ const server = http.createServer(async (request, response) => {
     sendJson(response, 500, {
       ok: false,
       error: "server_error",
-      message: error instanceof Error ? error.message : "Unknown server error",
+      message: "네이버 쇼핑 API 조회 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.",
     });
   }
 });

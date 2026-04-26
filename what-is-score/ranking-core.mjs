@@ -9,6 +9,8 @@ export function resolveCredentials(runtimeEnv = {}, processEnv = {}) {
 }
 
 export async function getRankingPayload({ store, keyword, mode = "api", limit = 100, runtimeEnv = {}, processEnv = {} }) {
+  const safeLimit = clampLimit(limit);
+
   if (!store || !keyword) {
     return {
       status: 400,
@@ -44,7 +46,7 @@ export async function getRankingPayload({ store, keyword, mode = "api", limit = 
     };
   }
 
-  const pages = buildPages(limit);
+  const pages = buildPages(safeLimit);
   const allItems = [];
 
   for (const page of pages) {
@@ -58,7 +60,7 @@ export async function getRankingPayload({ store, keyword, mode = "api", limit = 
 
   const normalizedStore = normalizeText(store);
   const looseNormalizedStore = normalizeStoreName(store);
-  const filteredItems = allItems.slice(0, limit).map((item, index) => ({
+  const filteredItems = allItems.slice(0, safeLimit).map((item, index) => ({
     rank: index + 1,
     title: stripTags(item.title || ""),
     mallName: item.mallName || "",
@@ -90,7 +92,7 @@ export async function getRankingPayload({ store, keyword, mode = "api", limit = 
       modeLabel: "네이버 공식 API 기준",
       keyword,
       store,
-      limit,
+      limit: safeLimit,
       fetchedCount: filteredItems.length,
       bestRank: best ? best.rank : null,
       matches,
@@ -125,12 +127,19 @@ async function fetchShoppingPage(keyword, start, display, clientId, clientSecret
   });
 
   if (!result.ok) {
-    const body = await result.text();
-    throw new Error(`Naver API error ${result.status}: ${body.slice(0, 300)}`);
+    throw new Error(`Naver API request failed with status ${result.status}`);
   }
 
   const data = await result.json();
   return Array.isArray(data.items) ? data.items : [];
+}
+
+function clampLimit(value) {
+  const parsed = Number.parseInt(value, 10);
+  if (Number.isNaN(parsed)) {
+    return 100;
+  }
+  return Math.max(1, Math.min(MAX_RESULTS, parsed));
 }
 
 function buildPages(limit) {
